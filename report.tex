@@ -1,0 +1,307 @@
+\documentclass[12pt]{report}
+\usepackage{graphicx}
+\usepackage[utf8]{vietnam}
+\usepackage[left=3cm, right=3cm, top=3cm, bottom =3cm]{geometry}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{etoolbox}
+
+% Link color setup
+\hypersetup{
+	colorlinks = true,
+	linkcolor = black,
+	citecolor = blue
+}
+
+% Change format of page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{Kỹ thuật lập trình}
+\fancyfoot[L]{Nhóm 6 - KSTN-CNTT-K60}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+% format
+\usepackage{titlesec}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+\titleformat{\subsection}
+{\normalfont\large}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+{\normalfont\normalsize}{\thesubsubsection}{1em}{}
+
+
+% PYTHON
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+% END PYTHON
+
+
+\begin{document}
+
+\tableofcontents 
+\newpage 
+
+\section{\bfseries Tổng hợp kỹ thuật viết mã nguồn với các cấu trúc lập trình}
+
+\subsection{Sử dụng chương 14 – Tổ chức các câu lệnh tuần tự.}
+\noindent Các kỹ thuật tiêu biểu gồm: 
+
+\subsubsection{KT 14.1. The strongest principle for organizing straight-line code is ordering dependencies.}
+
+\subsubsection{KT 14.2. Dependencies should be made obvious through the use of good routine names, parameter lists, comments, and—if the code is critical enough—housekeeping variables.}
+
+\subsubsection{KT 14.3. If code doesn't have order dependencies, keep related statements as close together as possible.}
+
+
+\subsection{Sử dụng chương 15 – Sử dụng câu lệnh If-Then}
+\noindent Các kỹ thuật tiêu biểu gồm: 
+
+\subsubsection{KT 15.1. For simple if-else statements, pay attention to the order of the if and else clauses, especially if they process a lot of errors. Make sure the nominal case is clear.}
+
+\subsubsection{KT 15.2. For if-then-else chains and case statements, choose an order that maximizes read-ability.}
+
+\subsubsection{KT 15.3. To trap errors, use the default clause in a case statement or the last else in a chain of if-then-else statements.}
+
+\subsubsection{KT 15.4. All control constructs are not created equal. Choose the control construct that's most appropriate for each section of code.}
+
+
+\subsection{Sử dụng chương 16 – Vòng lặp}
+\noindent Các kỹ thuật tiêu biểu gồm: 
+
+\subsubsection{KT 16.1. Loops are complicated. Keeping them simple helps readers of your code.}
+
+\subsubsection{KT16.2. Techniques for keeping loops simple include avoiding exotic kinds of loops, minimizing nesting, making entries and exits clear, and keeping housekeeping code in one place.}
+
+\subsubsection{KT 16.3. Loop indexes are subjected to a great deal of abuse. Name them clearly, and use them for only one purpose.}
+
+\subsubsection{KT 16.4.Think through the loop carefully to verify that it operates normally under each case and terminates under all possible conditions.}
+
+
+\subsection{Sử dụng chương 17 – Các cấu trúc điều khiển khác}
+\noindent Các kỹ thuật tiêu biểu gồm: 
+
+\subsubsection{KT 17.1. Multiple returns can enhance a routine's readability and maintainability, and they help prevent deeply nested logic. They should, nevertheless, be used carefully.}
+
+\subsubsection{KT17.2. Recursion provides elegant solutions to a small set of problems. Use it carefully, too.}
+
+\subsubsection{KT17.3. In a few cases, gotos are the best way to write code that's readable and maintainable. Such cases are rare. Use gotos only as a last resort.}
+
+
+\section{\bfseries Tổng hợp kỹ thuật làm việc với các biến}
+
+\subsection{Sử dụng chương 10 -- Các kỹ thuật chung làm việc với biến}
+\noindent Các kĩ thuật tiêu biểu gồm:
+\subsubsection{KT10.1. Data initialization is prone to errors, so use the initialization techniques described in this chapter to avoid the problems caused by unexpected initial values.}
+\subsubsection{KT10.2. Minimize the scope of each variable. Keep references to a variable close together. Keep it local to a routine or class. Avoid global data.}
+\subsubsection{KT10.3. Keep statements that work with the same variables as close together as possible.}
+\subsubsection{KT10.4. Early binding tends to limit flexibility but minimize complexity. Late binding tends to increase flexibility but at the price of increased complexity.}
+\subsubsection{KT10.5. Use each variable for one and only one purpose.}
+
+
+\subsection{Sử dụng chương 11 -- Kỹ thuật đặt tên biến}
+\noindent Các kỹ thuật tiêu biểu gồm:
+
+\subsubsection{KT11.1. Good variable names are a key element of program readability. Specific kinds of variables such as loop indexes and status variables require specific considerations.}
+
+\subsubsection{KT11.2. Names should be as specific as possible. Names that are vague enough or general enough to be used for more than one purpose are usually bad names.}
+
+\subsubsection{KT11.3. Naming conventions distinguish among local, class, and global data. They distinguish among type names, named constants, enumerated types, and variables.}
+
+\subsubsection{KT11.4. Regardless of the kind of project you're working on, you should adopt a variable naming convention. The kind of convention you adopt depends on the size of your program and the number of people working on it.}
+
+\subsubsection{KT11.5. Abbreviations are rarely needed with modern programming languages. If you do use abbreviations, keep track of abbreviations in a project dictionary or use the standardized prefixes approach.}
+
+\subsubsection{KT11.6. Code is read far more times than it is written. Be sure that the names you choose favor read-time convenience over write-time convenience.}
+
+
+\subsection{Sử dụng chương 12 -- Các kiểu dữ liệu cơ bản}
+\noindent Các kĩ thuật tiêu biểu gồm:
+\subsubsection{KT12.1. Working with specific data types means remembering many individual rules for each type. Use this chapter's checklist to make sure that you've considered the common problems.}
+
+	Làm việc với những kiểu dữ liệu cụ thể nghĩ là phải nhớ nhiều những quy tắc riêng biệt cho từng kiểu. Như những quy tắc dưới đây:
+\begin{itemize}
+	\item Kiểu dữ liệu số tổng quát:
+		\begin{itemize}
+			\item Tránh những "magic number", những hằng số xuất hiện ở giữa code mà không có giải thích
+			\item Có thể code trực tiếp 0, 1 nếu cần thiết
+			\item Dự tính trường hợp chia cho 0
+			\item Tránh so sánh khác kiểu giữ liệu 
+			\item Chú ý những cảnh báo của trình dịch 
+		\end{itemize}
+	\item Kiểu số nguyên:
+		\begin{itemize}
+			\item Kiểm tra chia nguyên với chia thực 
+			\item Kiểm tra tràn số
+			\item Kiểm tra tràn số trong các giá trị trung gian
+		\end{itemize}
+	\item Kiểu số thực chấm phẩy động:
+		\begin{itemize}
+			\item Tránh cộng và trừ những số có độ lớn khác nhau nhiều
+			\item Tránh so sánh bằng 
+			\item Dự kiến lỗi làm tròn 
+		\end{itemize}
+	\item Ký tự và xâu:
+		\begin{itemize}
+			\item Tránh những ký tự và xâu "magic"
+			\item Hiểu rõ ngôn ngữ bạn đang dùng hỗ trợ Unicode ra sao 
+			\item Định rõ khu vực, vùng mà chương trình sẽ được sử dụng
+			\item Nếu cần hỗ trợ nhiều ngôn ngữ, hãy dùng Unicode 
+		\end{itemize}
+	\item Biến boolean:
+		\begin{itemize}
+			\item Sử dụng kiểu boolean để làm rõ những điều kiện trong chương trình 
+			\item Sử dụng kiểu boolean để đơn giản hoá những test phức tạp
+			\item Tự tạo một kiểu dữ liệu boolean, nếu như cần thiết 
+		\end{itemize}
+	\item Kiểu enum:
+		\begin{itemize}
+			\item Sử dụng kiểu enum cho tính dễ đọc 
+			\item Sử dụng kiểu enum cho tính tin cậy
+			\item Sử dụng kiểu enum để cho việc sửa đổi dễ dàng 
+			\item Sử dụng kiểu enum thay thế cho kiểu boolean 
+			\item Sử dụng giá trị ban đầu của enum để cho những giá trị không hợp lệ
+			\item Xác định rõ phần tử đầu và cuối của enum được sử dụng như thế nào trong toàn bộ project 
+			\item Nếu ngôn ngữ không có kiểu enum thì có thể sử dụng class hoặc từ điển  
+		\end{itemize}
+	\item Hằng số:
+		\begin{itemize}
+			\item Sử dụng hằng số có đặt tên trong khai báo dữ liệu 
+			\item Sử dụng hằng số một cách thống nhất 
+		\end{itemize}
+	\item Mảng:
+		\begin{itemize}
+			\item Đảm bảo rằng chỉ số của mảng ở trong miền cho phép 
+			\item Luôn nghĩ rằng mảng là một cấu trúc tuần tự 
+			\item Nếu mảng là đa chiều, đảm bảo thứ tự của các chỉ số 
+			\item Kiểm tra xem chỉ số khi lặp có đúng như mong muốn 
+			\item Để thêm một phần tử ở cuối mảng 
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{KT12.2. Creating your own types makes your programs easier to modify and more self-documenting, if your language supports that capability.}
+Tự tạo một kiểu dữ liệu sẽ làm cho chương trình dễ dàng sửa đổi và tăng tính tự mô tả, nếu như ngôn ngữ hỗ trợ khả năng này.
+
+
+
+\subsubsection{KT12.3. When you create a simple type using typedef or its equivalent, consider whether you should be creating a new class instead.}
+
+
+\subsection{Sử dụng chương 13 – Các kiểu dữ liệu đặc biệt}
+\noindent Các kĩ thuật tiêu biểu gồm:
+
+\subsubsection{KT13.1. Structures can help make programs less complicated, easier to understand, and easier to maintain.}
+
+\subsubsection{KT13.2. Whenever you consider using a structure, consider whether a class would work better.}
+
+\subsubsection{KT13.3. Pointers are error-prone. Protect yourself by using access routines or classes and defensive-programming practices.}
+
+\subsubsection{KT13.4. Avoid global variables, not just because they're dangerous, but because you can replace them with something better.}
+
+\subsubsection{KT13.5. If you can't avoid global variables, work with them through access routines. Access routines give you everything that global variables give you, and more.}
+
+
+% Begin section
+\section{\bfseries Tổng hợp kỹ thuật xây dựng chương trình, hàm, thủ tục}
+
+\subsection{Sử dụng chương 5 -- Các kỹ thuật thiết kế chương trình phần mềm -- Design in Construction}
+\noindent Các kĩ thuật tiêu biểu gồm:
+
+\subsubsection{KT5.1. Software's Primary Technical Imperative is managing complexity. This is greatly aided by a design focus on simplicity.}
+
+\subsubsection{KT5.2. Simplicity is achieved in two general ways: minimizing the amount of essential complexity that anyone's brain has to deal with at any one time, and keeping accidental complexity from proliferating needlessly.}
+
+\subsubsection{KT5.3. Design is heuristic. Dogmatic adherence to any single methodology hurts creativity and hurts your programs.}
+
+\subsubsection{KT5.4. Good design is iterative; the more design possibilities you try, the better your final design will be.}
+
+\subsubsection{KT5.5. Information hiding is a particularly valuable concept. Asking "What should I hide?" settles many difficult design issues.}
+
+\subsubsection{KT5.6. Lots of useful, interesting information on design is available outside this book. The perspectives presented here are just the tip of the iceberg.}
+
+
+\subsection{Sử dụng chương 7 – Kỹ thuật xây dựng hàm/thủ tục High-Quality Routines}
+\noindent Các kĩ thuật tiêu biểu gồm:
+
+\subsubsection{KT7.1. The most important reason for creating a routine is to improve the intellectual manageability of a program, and you can create a routine for many other good reasons. Saving space is a minor reason; improved readability, reliability, and modifiability are better reasons.}
+
+\subsubsection{KT7.2. Sometimes the operation that most benefits from being put into a routine of its own is a simple one.}
+
+\subsubsection{KT7.3. You can classify routines into various kinds of cohesion, but you can make most routines functionally cohesive, which is best.}
+
+\subsubsection{KT7.4. The name of a routine is an indication of its quality. If the name is bad and it's accurate, the routine might be poorly designed. If the name is bad and it's inaccurate, it's not telling you what the program does. Either way, a bad name means that the program needs to be changed.}
+
+\subsubsection{KT7.5. Functions should be used only when the primary purpose of the function is to return the specific value described by the function's name.}
+
+\subsubsection{KT7.6. Careful programmers use macro routines with care and only as a last resort.}
+
+
+\subsection{Sử dụng chương 8 – Các kỹ thuật bẫy lỗi và phòng ngừa lỗi -- Defensive Programming}
+\noindent Các kĩ thuật tiêu biểu gồm:
+
+\subsubsection{KT8.1.Production code should handle errors in a more sophisticated way than "garbage in, garbage out."}
+
+\subsubsection{KT8.2. Defensive-programming techniques make errors easier to find, easier to fix, and less damaging to production code.}
+
+\subsubsection{KT8.3. Assertions can help detect errors early, especially in large systems, high-reliability systems, and fast-changing code bases.}
+
+\subsubsection{KT8.4 The decision about how to handle bad inputs is a key error-handling decision and a key high-level design decision.}
+
+\subsubsection{KT8.5. Exceptions provide a means of handling errors that operates in a different dimension from the normal flow of the code. They are a valuable addition to the programmer's intellectual toolbox when used with care, and they should be weighed against other error-processing techniques.}
+
+\subsubsection{KT8.6. Constraints that apply to the production system do not necessarily apply to the development version. You can use that to your advantage, adding code to the development version that helps to flush out errors quickly.}
+
+
+
+\end{document}
