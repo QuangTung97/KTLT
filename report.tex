@@ -7,6 +7,8 @@
 \usepackage{hyperref}
 \usepackage{etoolbox}
 
+% \setcounter{tocdepth}{4}
+
 % Link color setup
 \hypersetup{
 	colorlinks = true,
@@ -39,9 +41,9 @@
 \makeatother
 
 \titleformat{\subsection}
-{\normalfont\large}{\thesubsection}{1em}{}
+{\normalfont\large\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}
-{\normalfont\normalsize}{\thesubsubsection}{1em}{}
+{\normalfont\normalsize\sffamily\bfseries}{\thesubsubsection}{1em}{}
 
 
 % PYTHON
@@ -231,26 +233,112 @@ showstringspaces=false            %
 \end{itemize}
 
 \subsubsection{KT12.2. Creating your own types makes your programs easier to modify and more self-documenting, if your language supports that capability.}
-Tự tạo một kiểu dữ liệu sẽ làm cho chương trình dễ dàng sửa đổi và tăng tính tự mô tả, nếu như ngôn ngữ hỗ trợ khả năng này.
+Tự tạo một kiểu dữ liệu mới sẽ làm cho chương trình dễ dàng sửa đổi và tăng tính tự mô tả, nếu như ngôn ngữ hỗ trợ khả năng này.
+
+\noindent Một số những chỉ dẫn tự tạo một kiểu dữ liệu của mình: 
+\begin{itemize}
+	\item Tạo kiểu dữ liệu với tên hướng đến chức năng của nó 
+	\item Tránh những kiểu dữ liệu đã định nghĩa trước đó 
+	\item Đừng định nghĩa kiểu dữ liệu đã được định nghĩa 
+	\item Định nghĩa kiểu dữ liệu thay thế cho kiểu dữ liệu cũ để tăng tính khả chuyển 
+\end{itemize}
 
 
 
 \subsubsection{KT12.3. When you create a simple type using typedef or its equivalent, consider whether you should be creating a new class instead.}
+Nếu tự tạo một kiểu dữ liệu mới bằng typedef hoặc cách tương đương, xem xét việc sử dụng class để thay thế nó.
 
 
 \subsection{Sử dụng chương 13 – Các kiểu dữ liệu đặc biệt}
 \noindent Các kĩ thuật tiêu biểu gồm:
 
 \subsubsection{KT13.1. Structures can help make programs less complicated, easier to understand, and easier to maintain.}
+Kiểu dữ liệu có cấu trúc sẽ giúp chương trình giảm độ phức tạp, dễ dàng để hiểu, để duy trì nó hơn.
+ 
+\noindent Một số những lưu ý khi sử dụng kiểu dữ liệu có cấu trúc: 
+\begin{itemize}
+	\item Sử dụng kiểu dữ liệu có cấu trúc để làm rõ mối quan hệ giữa các dữ liệu 
+	\item Sử dụng để đơn giản hoá những thủ tục lên khối dữ liệu 
+	\item Sử dụng để đơn giản hoá tham số đầu vào của hàm 
+	\item Sử dụng để giảm bớt việc bảo trì chương trình
+\end{itemize}
 
 \subsubsection{KT13.2. Whenever you consider using a structure, consider whether a class would work better.}
+Khi sử dụng một kiểu giữ liệu có cấu trúc, xem xét liệu rằng class sẽ tốt hơn.
 
+
+ 
 \subsubsection{KT13.3. Pointers are error-prone. Protect yourself by using access routines or classes and defensive-programming practices.}
+Con trỏ là kiểu dữ liệu dễ dàng gặp lỗi khi sử dụng. Bảo vệ bản thân bằng việc sử dụng hàm hoặc class khi muốn truy cập nó, hoặc sử dụng kỹ thuật lập trình "tự phòng thủ".
+\vspace*{5mm}
+
+\noindent Những yêu cầu khi sử dụng biến con trỏ:
+\begin{itemize}
+	\item Sử dụng một kiểu con trỏ rõ ràng thay vì kiểu con trỏ mặc định. 
+	\item Tránh cast kiểu dữ liệu con trỏ.
+	\item Trong C, nếu bạn sử dụng dấu * với tham số ở hàm, luôn nhớ rằng giá trị có thể truyền ngược lại khi gọi hàm. Đồng thời khi bạn muốn truyền ngược lại giá trị, chắc chắn rằng phải có ít nhất một dấu sao trong một câu lệnh gán. 
+	\item Sử dụng sizeof() để xác định kích thước của biến khi cấp phát bộ nhớ cho nó. 
+\end{itemize}
 
 \subsubsection{KT13.4. Avoid global variables, not just because they're dangerous, but because you can replace them with something better.}
+Tránh dử dụng biến toàn cục, không phải chỉ vì nó nguy hiểm mà còn bởi vì bạn có thể thay thế nó bằng những cách thức tốt hơn nhiều. 
+\vspace*{5mm}
+
+\noindent Những vấn đề chính khi sử dụng kiểu dữ liệu toàn cục: 
+\begin{itemize}
+	\item Vô tình thay đổi kiểu dữ liệu toàn cục.
+	\item Có thể có những lỗi kì quặc khi sử dụng "tên thay thế" cho biến toàn cục. Chẳng hạn như việc truyền đồng thời tham số vào hàm là biến toàn cục, cũng như sử dụng biến toàn cục trong chính hàm. 
+	\item Vấn đề code được sử dụng nhiều lần trong khi nó truy cập đến biến toàn cục, chẳng hạn như lời gọi đệ quy, hoặc trong trường hợp đa luồng. 
+	\item Tính tái sử dụng của Code bị cản trở bới kiểu toàn cục. 
+	\item Thứ tự khởi tạo không xác định khi sử dụng kiểu toàn cục. 
+	\item Tính module hoá và khả năng kiểm soát code bị huỷ hoại bởi sử dụng kiểu toàn cục. 	
+\end{itemize}
+
+\noindent Những lý do để sử dụng biến toàn cục: 
+\begin{itemize}
+	\item Bảo tồn những giá trị toàn cục, ví dụ bảng dữ liệu mà tất cả các hàm sử dụng. 
+	\item Liệt kê những giá trị hằng số, trong những ngôn ngữ không hỗ trợ hằng số như Python, Perl. 
+	\item Sử dụng như kiểu dữ liệu enum, như trong Python. 
+	\item Loại bỏ những dữ liệu "lang thang". Ví dụ như khi có 3 hàm, gọi lần lượt lẫn nhau theo đúng thứ tự 1, 2, 3.
+	Hàm 1 và hàm 3 sử dụng cùng một object, nhưng hàm 2 thì không. Nếu truyền qua tham số thì ta vẫn phải truyền nó qua hàm 2, đó là dữ liệu "lang thang". Sử dụng biến toàn cục sẽ loại bỏ những dữ liệu này. 
+\end{itemize}
+
+\noindent Sử dụng biến toàn cục chỉ khi nó là phương pháp cuối cùng. 
+\begin{itemize}
+	\item Bắt đầu bởi tạo một biến cục bộ và chỉ thay đổi nó thành toàn cục khi thực sự cần thiết. 
+	\item Phân biệt giữa biến toàn cục và biến trong class. 
+	\item Sử dụng những hàm, thủ tục để truy cập.
+\end{itemize}
+
+\noindent Làm thế nào để giảm bớt những rủi ro khi sử dụng biến toàn cục:
+\begin{itemize}
+	\item Triển khai một quy ước đặt tên để làm cho biến toàn cục trở nên hiển nhiên. 
+	\item Tạo một danh sách các chú thích tốt cho tất cả các biến toàn cục. 
+	\item Đừng sử dụng biến toàn cục cho các kết quả trung gian. 
+	\item Đừng giả vờ rằng bạn không sử dụng biến toàn cục bằng cách đặt tất cả dữ liệu vào một object rất lớn và truyền nó khắp mọi nơi. 
+\end{itemize}
 
 \subsubsection{KT13.5. If you can't avoid global variables, work with them through access routines. Access routines give you everything that global variables give you, and more.}
+Nếu không thể tránh khỏi việc sử dụng biến toàn cục thì nên sử dụng những hàm, thủ tục để truy cập nó thay vì truy cập trực tiếp. 
+Truy cập nhờ hàm, thủ tục sẽ cho bạn mọi thứ như khi sử dụng biến đó trực tiếp, và thêm nhiều hơn thế nữa. 
+\vspace*{5mm}
 
+\noindent Lợi ích của việc sử dụng hàm truy cập biến toàn cục: 
+\begin{itemize}
+	\item Bạn có thể tập trung hoá việc truy cập biến toàn cục. Nếu bạn nghĩ ra một cách thức truy cập mới cho dữ liệu đang sử dụng, khi đó bạn không phải thay đổi code nơi mà dữ liệu được sử dụng, chỉ cần thay đổi code trong hàm truy cập. 
+	\item Có thể đảm bảo rằng tất cả các truy cập đến biến toàn cục được "rào chắn".
+	\item Bạn sẽ được lợi nhờ việc che giấu thông tin tự động. 
+	\item Hàm truy cập sẽ giúp dễ dàng cho việc chuyển sang kiểu dữ liệu trừu tượng. 
+\end{itemize}
+
+\noindent Làm thế nào để sử dụng hàm truy cập:
+\begin{itemize}
+	\item Yêu cầu tất cả các truy cập biến phải thông qua hàm truy cập.
+	\item Đừng chỉ vứt toàn bộ những biến toàn cục vào một cái thùng. 
+	\item Sử dụng cơ chế khoá để bảo vệ biến toàn cục khi lập trình đa luồng. 
+	\item Xây dựng thêm một mức trừu tượng hoá vào trong hàm truy cập. 
+	\item Giữ tất cả các truy cập của dữ liệu ở cùng một mức trừu tượng, đừng cho phép sử dụng nhiều mức trừu tượng để truy cập giữ liệu. 
+\end{itemize}
 
 % Begin section
 \section{\bfseries Tổng hợp kỹ thuật xây dựng chương trình, hàm, thủ tục}
@@ -259,6 +347,15 @@ Tự tạo một kiểu dữ liệu sẽ làm cho chương trình dễ dàng s�
 \noindent Các kĩ thuật tiêu biểu gồm:
 
 \subsubsection{KT5.1. Software's Primary Technical Imperative is managing complexity. This is greatly aided by a design focus on simplicity.}
+Yêu cầu kỹ thuật chính đối với phần mềm là kiểm soát sự phức tạp. Nó được hỗ trợ rất lớn bởi thiết kế tập trung vào sự đơn giản. 
+\vspace*{3mm}
+
+\noindent {\bfseries Sự khó khăn đối với những thứ "tình cờ" và "thiết yếu":}
+
+
+\noindent {\bfseries Tầm quan trọng của việc quản lý sự phức tạp trong phát triển phần mềm:}
+
+
 
 \subsubsection{KT5.2. Simplicity is achieved in two general ways: minimizing the amount of essential complexity that anyone's brain has to deal with at any one time, and keeping accidental complexity from proliferating needlessly.}
 
@@ -271,7 +368,7 @@ Tự tạo một kiểu dữ liệu sẽ làm cho chương trình dễ dàng s�
 \subsubsection{KT5.6. Lots of useful, interesting information on design is available outside this book. The perspectives presented here are just the tip of the iceberg.}
 
 
-\subsection{Sử dụng chương 7 – Kỹ thuật xây dựng hàm/thủ tục High-Quality Routines}
+\subsection{Sử dụng chương 7 -- Kỹ thuật xây dựng hàm/thủ tục High-Quality Routines}
 \noindent Các kĩ thuật tiêu biểu gồm:
 
 \subsubsection{KT7.1. The most important reason for creating a routine is to improve the intellectual manageability of a program, and you can create a routine for many other good reasons. Saving space is a minor reason; improved readability, reliability, and modifiability are better reasons.}
