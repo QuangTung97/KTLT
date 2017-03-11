@@ -350,20 +350,122 @@ Truy cập nhờ hàm, thủ tục sẽ cho bạn mọi thứ như khi sử dụ
 Yêu cầu kỹ thuật chính đối với phần mềm là kiểm soát sự phức tạp. Nó được hỗ trợ rất lớn bởi thiết kế tập trung vào sự đơn giản. 
 \vspace*{3mm}
 
-\noindent {\bfseries Sự khó khăn đối với những thứ "tình cờ" và "thiết yếu":}
-
-
 \noindent {\bfseries Tầm quan trọng của việc quản lý sự phức tạp trong phát triển phần mềm:}
 
+Khi một cuộc khảo sát về những dự án phần mềm báo cáo nguyên nhân dẫn đến thất bại, họ thường không xác định rõ là những vấn đề về mặt kĩ thuật là nguyên nhân chính gây nên thất bại của dự án. Một dự án thất bại phần lớn bởi vì yêu cầu không rõ ràng, lập kế hoạch không đầy đủ, và kiểm soát kém chặt chẽ. Nhưng khi một dự án thất bại vì lý do chính là kỹ thuật, lý do thường sẽ là không thể kiểm soát được sự phức tạp bên trong phần mềm đó. Phần mềm có thể được phép phát triển đến mức cực kì phức tạp mà không ai có thể hiểu thực sự nó đang làm gì. Khi dự án chạm mức không một ai có thể thực sự hiểu ảnh hưởng của những đoạn code này trong vùng này có tác độngđộng đến đoạn code trong vùng khác như thế nào, sự tiến triển của phần mềm sẽ bị kìm hãm xuống một nửa. 
+
+Kiểm soát sự phức tạp của phần mềm là vấn đề kỹ thuật quan trọng nhất trong phát triển phần mềm.
+
+Sự phức tạp không phải là mới trong công việc phát triển phần mềm. Nhà tiên phong trong khoa học tính toán Edsger Dijkstra đưa ra một luận điểm rằng: tính toán chỉ thực sự chuyên nghiệp khi một bộ óc có trách nhiệm phải mở rộng một dữ liệu từ một bit đến một vài megabyte, một tỉ lệ tầm 1 / $10^9$, hay 9 bậc về độ lớn (Dijkstra 1989). Tỉ lệ đó thật đáng kinh ngạc, Dijkstra đặt nó trong câu nói: "Compared to that number
+of semantic levels, the average mathematical theory is almost flat. By evoking
+the need for deep conceptual hierarchies, the automatic computer confronts us
+with a radically new intellectual challenge that has no precedent in our history." -- Nếu so sánh về số lượng mức ngữ nghĩa, trung bình một lý thuyết toán học gần như bằng phẳng. Bởi việc gợi nên sự cần thiết cho "hệ thống phân cấp khái niệm rất nhiều lớp",  máy tính tự động thách thức chúng ta với một thử thách trí tuệ hoàn toàn mới, cái mà không hề có tiền lệ trong lịch sử. Tất nhiên phần mềm đã ngày càng trở nên phức tạp, và tỉ lệ của  Dijkstra có thể là 1 / $10^{15}$ ngày hôm nay. 
+
+Dijkstra cho rằng không một ai có một bộ óc đủ lớn để chứa đựng một phần mềm máy tính hiện đại, nghĩa là một developer không nên cố gắng nhồi nhét toàn bộ phần mềm vào óc mình tại một thời điểm. Chúng ta phải cố gắng tổ chức chương trình bằng một cách nào đó để tại một thời điểm, ta có thể chỉ cần tập trung vào một phần của chương trình. 
 
 
 \subsubsection{KT5.2. Simplicity is achieved in two general ways: minimizing the amount of essential complexity that anyone's brain has to deal with at any one time, and keeping accidental complexity from proliferating needlessly.}
+\noindent {\bfseries Làm thế nào chống lại sự phức tạp}
+
+Có 3 nguồn của sự tốn kém quá mức, sự thiết kế không hiệu quả:
+\begin{itemize}
+	\item Một lời giải phức tạp cho một vấn đề đơn giản. 
+	\item Một lời giải đơn giản, không chính xác cho một vấn đề phức tạp. 
+	\item Một lời giản phức tạp, không hợp lý cho một vấn đề phức tạp. 
+\end{itemize}
+Như là Dijkstra đã chỉ ra, phần mềm hiện đại bản thân nó là phức tạp, không kể bạn có cố gắng như thế nào, bạn chắc chắn sẽ phải động chạm vào một vài mức của sự phức tạp mà nó là cái vốn có của những vấn đề thực tế. 
+Hai cách tiếp cận để kiểm soát sự phức tạp:
+\begin{itemize}
+	\item Tối thiểu hoá sự phức tạp "thiết yếu" cho bất kì ai phải động đến, tại bất kì thời điểm nào. 
+	\item Giữ cho sự phức tạp "tình cờ" tránh khỏi việc trở nên không cần thiết. 
+\end{itemize}
 
 \subsubsection{KT5.3. Design is heuristic. Dogmatic adherence to any single methodology hurts creativity and hurts your programs.}
+Thiết kế là một công việc heuristic. Bất kì một phương pháp nào tuân thủ theo cách độc đoán, giáo điều sẽ phá hoại sự sáng tạo và phá hoại chương trình của bạn. 
+\vspace*{3mm}
+
+\noindent {\bfseries Những thách thức trong thiết kế phần mềm: }
+\begin{itemize}
+	\item Thiết kế là một "vấn đề mờ" (wicked problem) -- "vấn đề mờ" là những vấn đề mà có thể định nghĩa rõ ràng chỉ khi bởi giải quyết nó, hoặc một phần của nó. Một trong những sự khác biệt giữa chương trình bạn phát triển ở trường và cái mà bạn phát triển khi chuyên nghiệp đó là vấn đề thiết kế được giao ở trường hiếm khi mơ hồ. 
+	\item Thiết kế là một quá trình luộm thuộm. Kết quả sau khi hoàn tất thiết kế phần mềm là tổ chức rõ ràng và sạch sẽ. Nhưng quá trình được sử dụng khi phát triển bản thiết kế gần như không "tươm tất" như kết quả cuối cùng. Mắc lỗi là điểm cần thiết của công việc thiết kế. Sự luộm thuộm đến từ việc khó để biết khi nào bản thiết kế của chúng ta đã đủ tốt. Việc thiết kết là một công việc "kết thúc mở", thông thường chỉ kết thúc khi bạn hết thời gian. 
+	\item Thiết kế là về việc đánh đổi và sự ưu tiên: Phần chính của một nhà thiết kế là phải đánh giá những đặc tính của phần mềm và cân bằng giữa những đặc tính đó. 
+	\item Thiết kế liên quan đến sự hạn chế: Sự ràng buộc trong giới hạn tài nguyên khi xây dựng phần mềm thúc đẩy sự đơn giản hoá trong lời giải, cái mà cuối cùng sẽ cải thiện lời giải của vấn đề. 
+	\item Thiết kế là một công việc không xác định: Nếu bạn cho ba người riêng biệt cùng thiết kế một phần mềm, họ chắc chắn sẽ trả về ba bản thiết kế gần như hoàn toàn khác nhau, và có thể tất cả số chúng đều hoàn toàn được chấp nhận. 
+	\item Thiết kế là một quá trình heuristic: Bởi vì thiết kế là công việc không xác định, các kỹ thuật thiết kế có xu hướng "heuristic" -- Không bao giờ một phương thức có thể được áp dụng chính xác trong tất cả các trường hợp. Không có công cụ nào là đúng cho mọi thứ. 
+	\item Thiết kế là "sự xuất hiện": Thiết kế không phải được hình thành đầy đủ từ bộ óc của một người, nó liên quan và được cải thiện dần dần bởi sự xem xét, sử thảo luận, kinh nghiệm khi viết code hoặc sửa lại code.   
+\end{itemize}
+
+
 
 \subsubsection{KT5.4. Good design is iterative; the more design possibilities you try, the better your final design will be.}
+Một bản thiết kế tốt là quá trình lặp đi lặp lại, càng nhiều những khả năng thiết kế mà bạn thử, kết quả thiết kế cuối cùng của bạn sẽ càng tốt.
+\vspace*{3mm}
+
+\noindent {\bfseries Những đặc trưng mong muốn của một bản thiết kế:}
+\begin{itemize}
+	\item Sự phức tạp tối thiểu. 
+	\item Dễ dàng bảo trì. 
+	\item Tối thiểu hoá sự kết nối. 
+	\item Tính mở rộng. 
+	\item Tính tái sử dụng. 
+	\item "Lượng đầu vào" cao -- "Lượng đầu vào" ở đây ám chỉ việc một class được các class khác sử dụng như thế nào. "Lượng đầu vào" cao nghĩa là hệ thống phải có các class hữu ích được sử dụng rộng khắp chương trình. 
+	\item "Lượng đầu ra" thấp hoặc trung bình -- "Lượng đầu ra" ở đây ám chỉ việc một class sử dụng số class khác bao nhiêu. 
+	"Lượng đầu ra" cao (nhiều hơn khoảng 7) chỉ định rằng class đó sử dụng một lượng lớn các class khác, và có thể gây nên sự phức tạp quá mức. 
+	\item Tính khả chuyển. 
+	\item Sự "nghèo nàn" -- "nghèo nàn" ở đây nghĩa là hệ thống không có những phần dư thừa. 
+	\item Sự phân tầng -- Thiết kế hệ thống sao cho bạn có thể nhìn nó ở một mức phân cấp mà không phải đào sâu vào các mức khác. 
+	\item Sử dụng những kĩ thuật đã chuẩn hoá.
+	 
+\end{itemize}
+\vspace*{3mm}
+
+\noindent {\bfseries Sự lặp lại trong thiết kế:}
+
+Thiết kế là một quá trình lặp đi lặp lại: Bạn sẽ không chỉ đi từ điểm A đến điểm B, bạn sẽ đi từ điểm A tới B và quay ngược trở lại A. 
+
+Với mỗi lần lặp lại và thử với cách tiếp cận khác nhau, bạn sẽ nhìn vấn đề dưới góc nhìn ở cả mức thấp và mức cao. Bức tranh lớn mà bạn nhận được với những vấn đề ở mức cao sẽ giúp bạn đặt những vấn đề mức thấp ở đúng vị trí. Những chi tiết của vấn đề mức thấp cung cấp cho bạn nền tảng vững chắc cho những quyết định ở mức cao. Hoán đổi việc xem xét giữa mức thấp và mức cao là khá khó khăn, nhưng nó là thiết yếu đối với việc thiết kế hiệu quả. Khi tạo ra bản thiết kế đầu tiên mà có vẻ đủ tốt, đừng nên dừng lại. Nỗ lực lần thứ hai sẽ gần như luôn luôn tốt hơn lần đầu. 
+
 
 \subsubsection{KT5.5. Information hiding is a particularly valuable concept. Asking "What should I hide?" settles many difficult design issues.}
+Ấn giấu thông tin là một khái niệm có giá trị đặc biệt. Luôn luôn đặt câu hỏi "Cái gì tôi nên che giấu?" sẽ giải quyết nhiều những  khó khăn trong vấn đề thiết kế.  
+\vspace*{3mm}
+
+\noindent {\bfseries Che giấu thông tin: } \\
+Che giấu thông tin là nền tảng của cả thiết kế hướng cấu trúc và hướng đối tượng. Trong thiết kế hướng cấu trúc, khái niệm "hộp đen" đến từ việc che giấu thông tin. Trong thiết kế hướng đối tượng, nó tạo ra những khái niệm đóng gói và module hoá, và nó có liên quan đến khái niệm về sự trừu tượng. 
+
+
+Bí mật và quyền riêng tư: \\
+Trong che giấu thông tin, mỗi class (hoặc một hàm, một package) được đặc trưng bởi những quyết định về thiết kế hoặc xây dựng nó, cái mà nó che giấu từ tất cả những class khác. Vùng bí mật có thể là vùng có khả năng cao sẽ thay đổi, định dạng một file, hay là cách mà dữ liệu được thực hiện, hay những giữ liệu được che chắn cho phần còn lại của chương trình để mà lỗi trong phần này gây nên những hư hại nhỏ cho các phần khác của chương trình. Vai trò của một class là giữ cho những thông tin này ẩn và để bảo vệ nó khỏi những truy cập không mong muốn từ bên ngoài. Một thay đổi nhỏ có thể ảnh hưởng một vài hàm trong class, nhưng nó không nên vượt quá interface của class. 
+
+Một trong những nhiệm vụ chính khi thiết kế một class là quyết định xem những đặc điểm nào sẽ được biết đến bên ngoài class, và những cái nào sẽ được giữ bí mật. Một class có thể có 25 hàm, chỉ có 5 hàm là public, và 20 hàm còn lại chỉ sử dụng với mục đích trong của class. Một class có thể sử dụng một vài kiểu dữ liệu mà không phơi bày bất kì thông tin nào về nó. 
+
+Interface của một class nên tiết lộ ít thông tin nhất có thể về hoạt động bên trong của nó. Thiết kế một interface là một quá trình lặp đi lặp lại như những khía cạnh khác của thiết kế. Nếu bạn không đạt được một interface đúng từ đầu, thử một vài lần cho đến khi nó ổn định. Nếu nó không thể ổn định, bạn cần phải thử một cách tiếp cận khác. 
+
+\noindent {\bfseries Hai dạng của bí mật: }
+\begin{itemize}
+	\item Ẩn giấu sự phức tạp để mà não của bạn không phải động đến nó trừ khi bạn có quan tâm đặc biệt đến nó. 
+	\item Ẩn giấu nguồn gốc của sự thay đổi để mà khi thay đổi xảy ra, nó chỉ ảnh hưởng trong một vùng cục bộ. 
+\end{itemize}  
+Nguồn gốc của sự phức tạp bao gồm kiểu dữ liệu phức tạp, cấu trúc file, những test đúng sai, liên quan đến thuật toán,...
+\vspace*{3mm}
+
+\noindent {\bfseries Những cản trở cho việc che giấu thông tin: }
+\begin{itemize}
+	\item Sự phân tán quá mức của thông tin. 
+	\item Phụ thuộc vòng tròn. 
+	\item Không sử dụng class thay cho những biến toàn cục. 
+	\item Việc tránh làm giảm hiệu năng của hệ thống. 
+\end{itemize}
+\vspace*{3mm}
+
+\noindent {\bfseries Giá trị của việc che giấu thông tin: }
+Suy nghĩ về việc che giấu thông tin sẽ truyền cảm hứng và nâng cao những lựa chọn khi thiết kế hơn là tư duy hướng đối tượng. 
+
+Việc che giấu thông tin còn hữu dụng trong việc thiết kế public interface của class. Khoảng cách giữa lý thuyết và thực tế trong thiết kế class là lớn, và giữa các người thiết kế class, quyết định thông thường sẽ là interface của class phải thuận tiện để sử dụng nhất có thể. Điều đó thường dẫn đến những thông tin của class bị phơi bày nhiều nhất có thể. 
+
+Luôn đặt câu hỏi "Cái gì của class mà cần che giấu?", đều đó sẽ giúp giảm bớt rất nhiều những vấn đề khi thiết kế interface. Nếu bạn có thể đặt một hàm vào public interface của class mà không gây hại đến tính bí mật của nó thì hãy làm, còn không thì đừng nên. 
+
+Đặt câu hỏi về điều gì bạn cần để ẩn thông tin sẽ hỗ trợ cho việc lựa chọn phương pháp thiết kế ở bất kì một mức nào của phần mềm. Nó đẩy mạnh việc sử dụng những hằng số được đặt tên thay vì những hằng số trực tiếp, nó giúp cho việc tạo ra những tên hàm, tên biến tốt đồng thời hướng dẫn cho việc lựa chọn thiết kế class, các hệ thống con và cách thức liên kết giữa chúng. 
 
 \subsubsection{KT5.6. Lots of useful, interesting information on design is available outside this book. The perspectives presented here are just the tip of the iceberg.}
 
