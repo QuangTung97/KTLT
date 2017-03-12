@@ -62,14 +62,15 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 language=Python,
-basicstyle=\ttm,
+basicstyle=\ttm\small,
 otherkeywords={self},             % Add keywords here
-keywordstyle=\ttb\color{deepblue},
+keywordstyle=\ttb\color{deepblue}\small,
 emph={MyClass,__init__},          % Custom highlighting
-emphstyle=\ttb\color{deepred},    % Custom highlighting style
-stringstyle=\color{deepgreen},
+emphstyle=\ttb\color{deepred}\small,    % Custom highlighting style
+stringstyle=\color{deepgreen}\small,
 frame=tb,                         % Any extra options here
-showstringspaces=false            % 
+showstringspaces=false ,        % 
+tabsize = 4
 }}
 
 % Python environment
@@ -474,14 +475,129 @@ Luôn đặt câu hỏi "Cái gì của class mà cần che giấu?", đều đ�
 \noindent Các kĩ thuật tiêu biểu gồm:
 
 \subsubsection{KT7.1. The most important reason for creating a routine is to improve the intellectual manageability of a program, and you can create a routine for many other good reasons. Saving space is a minor reason; improved readability, reliability, and modifiability are better reasons.}
+Lý do quan trọng nhất để tạo một hàm, thủ tục là để cải thiện khả năng kiểm soát những vấn đề liên quan đến "trí tuệ" của chương trình, và bạn có thể tạo một hàm cho rất nhiều những lý do khác nữa. Tiết kiệm không gian là lý do nhỏ, nâng cao khả năng đọc hiểu, tính tin cậy và khả năng sửa đổi là lý do quan trọng hơn cả.
+\vspace*{3mm}
+
+\noindent {\bfseries Những lý do để tạo một hàm, thủ tục: }
+\begin{itemize}
+	\item Gỉảm bớt sự phức tạp: Tạo một hàm sẽ giúp che giấu thông tin để mà bạn sẽ không cần phải nghĩ về nó. Bạn sẽ phải nghĩ về nó khi viết hàm. Nhưng sau khi nó được tạo ra, bạn có thể quên đi chi tiết về hoạt động bên trong của nó và sử dụng mà không phải lo nghĩ về điều đấy. Lý do khác là để tối thiểu kích thước code, nâng cao khả năng bảo trì, cải thiệt tính đúng đắn của chương trình. Đó cũng là những lý do tốt, nhưng nếu không sức mạnh của tính trừu tượng nhờ việc tạo hàm, một chương trình phức tạp sẽ không thể quản lý được. 
+	\item Tạo một vùng code dễ đọc hiểu hơn: Đặt một vùng code vào một hàm đặt tên tốt là cách hợp lý nhất để giải thích mục đích của nó. 
+	\item Tránh lặp lại code.
+	\item Ẩn giấu thứ tự thực hiện. 
+	\item Ẩn giấu các phép toán trên con trỏ. 
+	\item Cải thiện tính khả chuyển. 
+	\item Đơn giản hoá những test đúng sai phức tạp.
+	\item Cải thiện hiệu năng. 
+	
+\end{itemize}
+
 
 \subsubsection{KT7.2. Sometimes the operation that most benefits from being put into a routine of its own is a simple one.}
+Đôi khi, một phép toán được lợi nhiều nhất từ việc đặt nó vào trong hàm, thủ tục lại là một phép toán đơn giản. 
+\vspace*{3mm}
+
+\noindent Xây dựng cả một hàm chỉ chứa một, hai dòng code có thể là quá mức cần thiết. Nhưng kinh nghiệm đã chỉ ra rằng những hàm nhỏ như vậy lại có ích rất nhiều. 
+
+Tạo ra các hàm nhỏ có một vài lợi thế, một trong số đó là cải thiện tính dễ đọc hiểu của code.\\
+Ví dụ dòng lệnh:
+\begin{python}
+points = device_units * (POINT_PER_INCH / device_units_per_inch())
+\end{python} 
+Có thể khá khó để nhận ra ngày dòng code đó có nghĩa là gì, nhưng nếu viết một hàm như thế này:
+\begin{python}
+def device_units_to_point(device_units):
+	return device_units * (POINT_PER_INCH /  	\
+				device_units_per_inch())
+\end{python}
+Khi đó dòng code trên có thể viết lại thành:
+\begin{python}
+points = device_units_to_point(device_units)
+\end{python}
+Code đã trở nên dễ đọc hiểu hơn nhiều. 
+
+Ngoài ra có một lý do khác để đặt một phép toán nhỏ vào trong một hàm: Phép toán nhỏ có xu hướng trở thành một phép toán lớn hơn. 
+Giải dụ như trong trường hợp trên $device\_units\_per\_inch()$ trả về giá trị 0, khi đó thay vì sửa lại mỗi dòng code sử dụng nó, ta chỉ cần sửa lại hàm đã viết:
+\begin{python}
+def device_units_to_point(device_units):
+	if device_units_per_inch() != 0:
+		return device_units * (POINT_PER_INCH / 	\
+					device_units_per_inch())
+	else:
+		return 0
+\end{python}
+
 
 \subsubsection{KT7.3. You can classify routines into various kinds of cohesion, but you can make most routines functionally cohesive, which is best.}
+Bạn có thể phân chia các hàm, thủ tục ra làm nhiều loại gắn kết, nhưng sẽ tốt nhất nếu bạn có thể làm cho hầu hết các hàm "gắn kết theo chức năng".
+\vspace*{3mm}
+
+Trong một hàm, sự gắn kết ám chỉ tới việc những phép toán bên trong hàm liên quan đến nhau như thế nào. Một vài lập trình viên sử dụng từ khác là "độ mạnh": Các phép toán trong hàm liên quan đến mạnh như thế nào? 
+
+Có một vài mức của sự gắn kết khi bàn luận về nó trong hàm: 
+\begin{itemize}
+	\item Sự gắn kết theo chức năng: Là loại gắn kết mạnh nhất, xảy ra khi hàm thực hiện một và chỉ một phép toán. Ví dụ như những hàm $sin()$, $get\_customer\_name()$, $erase\_file()$, $calculate\_loan\_payment()$, and $age\_from\_birthday()$.
+	\item Sự gắn kết theo tuần tự: Là loại gắn kết tồn tại khi một hàm, thủ tục tồn tại những phép toán phải được thực hiện với một thứ tự nhất định, có sự chia sẻ dữ liệu từ bước này sang bước khác, và không tạo đủ chức năng nếu không hoạt động cùng nhau. Ví dụ như là một hàm tính toán tuổi của nhân viên và thời gian nghỉ hưu, với tham số là ngày tháng năm sinh. Nếu hàm đó sử dụng tuổi để tính toán thời gian nghỉ hưu, nó đã có sự gắn kết theo tuần tự. Nếu hàm đó tính toán tuổi và thời gian nghỉ hưu trong hai phép tính toán tách biệt nhau, nó sẽ chỉ có sự gắn kết nhờ giao tiếp.
+	\item Sự gắn kết nhờ giao tiếp: Xảy ra khi các phép toán trong hàm sử dụng cùng dữ liệu mà không liên quan đến nhau theo bất cứ một cách nào. Chẳng hạn như một hàm in ra một báo cáo và sau đó khởi tạo lại giá trị của nó. Hai phép toán thao tác trên cùng một dữ liệu nhưng không liên quan gì tới nhau. 	
+	\item Sự gắn kết tạm thời: Xảy ra khi một vài các phép toán được tổng hợp vào một hàm bởi vì chúng thực hiện cùng thời điểm. Ví dụ thông thương đó là các hàm như $startup()$, $shutdown()$, $create\_new\_employee()$.
+	\item Sự gắn kết hướng thủ tục: Xảy ra khi những phép toán trong một hàm được thực hiện theo một thứ tự nhất định. Một ví dụ là một hàm lấy tên của nhân viên, địa chỉ, và rồi số điện thoại. Thứ tự của những phép toán này chỉ quan trọng bởi vì nó khớp với thứ tự mà người sử dụng hỏi từ màn hình. Để đạt được sự gắn kết tốt hơn, đặt những phép toán riêng rẽ vào thành một hàm, đảm bảo rằng bạn gọi hàm đó với một mục đích là làm một việc đơn nhất. 
+	\item Sự gắn kết theo logic: Xảy ra khi nhiều phép toán được nhồi vào cùng một hàm và chúng được lựa chọn nhờ vào một cờ điều khiển được truyền vào hàm. Chúng được gọi là gắn kết theo logic vì luồng điều khiển, hay "logic" là cái duy nhất buộc chúng lại với nhau -- thường là một lệnh if hay một switch case lớn. Nó không hẳn là bởi vì các phép toán liên quan với nhau một cách logic. 
+	\item Sự gắn kết ngẫu nhiên: Xảy ra khi các phép toán trong hàm có thể thấy rõ ràng là không có liên quan gì với nhau. 
+\end{itemize}
+Gần như là luôn luôn có thể tạo các hàm gắn kết theo chức năng, vậy nên cố gắng tập trung vào gắn kết theo chức năng để đặt hiểu quả cao nhất. 
+
 
 \subsubsection{KT7.4. The name of a routine is an indication of its quality. If the name is bad and it's accurate, the routine might be poorly designed. If the name is bad and it's inaccurate, it's not telling you what the program does. Either way, a bad name means that the program needs to be changed.}
+Tên của một hàm, thủ tục sẽ chỉ định chất lượng của nó. Nếu tên của hàm là tồi và nó chính xác, hàm đó có thể đã được thiết kế kém. Nếu tên hàm đó là tồi và nó không chính xác, nó sẽ không nói cho bạn biết chương trình sẽ làm cái gì. Trong cả hai trường hợp, một tên tồi nghĩa rằng chương trình của bạn cần thay đổi.
+\vspace*{3mm}
+
+Một vài những chỉ dẫn khi muốn tạo một tên có hiệu quả: 
+\begin{itemize}
+	\item Mô tả mọi thứ mà hàm, thủ tục đó thực hiện: Ví dụ $compute\_report\_totals()$ không mô tả được rõ hàm đó thực hiện những gì. 
+	\item Tránh những động từ vô nghĩa, không có nhiều tác dụng: Ví dụ như những hàm $handle\_calculation()$, $perform\_services()$.
+	\item Tạo tên hàm dài nhất cần thiết: Tên một hàm trung bình là khoảng 15 đến 20 kí tự. 
+	\item Để đặt tên một hàm có giá trị trả về, sử dụng mô tả của giá trị trả về: Ví dụ $current\_color()$, $is\_ready()$.
+	\item Để đặt tên một hàm không có giá trị trả về (hay thủ tục), sử dụng một động từ mạnh theo sau là một thực thể. Ví dụ như $print\_document()$, $check\_order\_info()$. Trong ngôn ngữ hướng đối tượng, bạn không cần phải bao gồm cả tên thực thể theo sau động từ vì bản thân thực thể đã đi trước lời gọi hàm. Ví dụ như $document.print()$, $order\_info.check()$. Tên giống như $document.print\_document()$ là dư thừa và có thể dẫn đến không chính xác. Ví dụ $Check$ là một class kế thừa từ $Document$, $check.print()$ sẽ nghĩa in ra một thông tin kiểm tra nào đó, nhưng $check.print\_document()$ thì không được như vậy. 
+	\item Sử dụng những từ trái ngược một cách chính xác. Ví dụ những cặp:
+		\begin{itemize}
+			\item $add$/$remove$
+			\item $begin$/$end$
+			\item $create$/$destroy$			
+			\item $first$/$last$
+			\item $get$/$set$
+		\end{itemize}
+	\item Thành lập các quy ước cho các phép toán phổ biến. Ví dụ như:
+\begin{python}
+employee.id.get()
+dependent.get_id()
+supervisor()
+candidate()
+\end{python}
+	Là trường hợp mà một cách lấy id mà có nhiều phương pháp khác nhau. Gây ra những sự khó chịu, nhầm lẫn không đáng có.
+
+\end{itemize}
 
 \subsubsection{KT7.5. Functions should be used only when the primary purpose of the function is to return the specific value described by the function's name.}
+Hàm có giá trị trả về nên được sử dụng khi mục đích chính của nó là trả về một giá trị cụ thể được mô tả bởi tên hàm đó.
+\vspace*{3mm}
+
+\noindent {\bfseries Một vài những xem xét khi sử dụng hàm có giá trị trả về:}
+\begin{itemize}
+	\item Khi nào thì sử dụng hàm có hoặc không có giá trị trả về (hoặc thủ tục):
+		Hàm nên thuần tuý chỉ trả về một giá trị, giá trị đó là phép tính toán mà hàm đó thực hiện. Có nghĩa là hàm chỉ nhận những tham số và trả về giá trị thông qua tên hàm đó mà thôi. Tên của hàm sẽ luôn luôn được đặt cho giá trị trả về của nó. Một hàm không có giá trị trả về (hay thủ tục) thì ngược lại, có thể nhận đầu vào, chỉnh sửa và xuất ra nhờ tham số. Một thực tế phổ biến là một hàm có thể hoạt động như một thủ tục nhưng lại có giá trị trả về. Một cách logic, nó giống một thủ tục (hàm không có giá trị trả về) nhưng vì nó trả về giá trị, nó chính thức là một hàm. Ví dụ như:
+\begin{python}
+if report.format_output(formatted_report) == SUCCESS:
+	...
+\end{python}
+		Một cách thay thế cho những hàm này là:
+\begin{python}
+report.format_output(formatted_report, output_status)
+if output_status == SUCCESS:
+	...
+\end{python}
+	\item Thiết lập giá trị trả về cho hàm: 
+
+
+\end{itemize} 
 
 \subsubsection{KT7.6. Careful programmers use macro routines with care and only as a last resort.}
 
