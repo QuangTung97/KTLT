@@ -64,7 +64,7 @@
 language=Python,
 basicstyle=\ttm\small,
 otherkeywords={self},             % Add keywords here
-keywordstyle=\ttb\color{deepblue}\small,
+keywordstyle=\bfseries\ttb\color{deepblue}\small,
 emph={MyClass,__init__},          % Custom highlighting
 emphstyle=\ttb\color{deepred}\small,    % Custom highlighting style
 stringstyle=\color{deepgreen}\small,
@@ -594,22 +594,62 @@ report.format_output(formatted_report, output_status)
 if output_status == SUCCESS:
 	...
 \end{python}
-	\item Thiết lập giá trị trả về cho hàm: 
+	\item Thiết lập giá trị trả về cho hàm: Sử dụng hàm tạo một rủi ro rằng hàm đó sẽ trả về giá trị không chính xác. Nó thường xảy ra khi hàm có một vài phần mà một trong số đó không đặt giá trị trả về.
+	\begin{itemize}
+		\item Kiểm tra toàn bộ những khả năng trả về. Khi tạo hàm, xem xét đầy đủ các trường hợp có thể để đảm bảo rằng hàm trả về những giá trị đã được định trước. 
+		\item Đừng trả về tham chiếu hoặc con trỏ tới một giá trị trong hàm. 
+	\end{itemize}
 
 
 \end{itemize} 
 
 \subsubsection{KT7.6. Careful programmers use macro routines with care and only as a last resort.}
+Lập trình viên cần sử dụng hàm macro một cách cẩn thận và chỉ sử dụng khi nó là phương án cuối cùng. 
+\vspace*{3mm}
 
+Trong C, nếu bạn sử dụng macro, hãy lưu ý những điều sau:
+\begin{itemize}
+	\item Đặt các câu lệnh trong macro luôn luôn đi kèm với dấu ngoặc đơn. 
+	\item Đặt một macro nhiều câu lệnh trong cặp dấu ngoặc nhọn. 
+	\item Đặt tên macro giống như hàm để mà nó có thể thay thế bằng hàm khi cần thiết. 
+\end{itemize}
+Sử dụng hàm macro có nhiều hạn chế. Như Bjarne Stroustrup, người thiết kế ra ngôn ngữ C++ nói rằng “Almost every macro
+demonstrates a flaw in the programming language, in the program, or in the
+programmer.... When you use macros, you should expect inferior service from
+tools such as debuggers, cross-reference tools, and profilers” -- Gần như mọi macro thể hiện một lỗi hồng trong ngôn ngữ lập trình, trong chương trình, hoặc bên trong chính lập trình viên... Khi bạn sử dụng macro, bạn nên mong đợi vào dịch vụ cấp thấp của các công cụ như trình gỡ rối,  công cụ tham chiếu chéo, và những hồ sơ của chương trình. Macro hữu dụng cho việc hỗ việc biên dịch có điều kiện, nhưng một lập trình viên cẩn thận sẽ chỉ sử dụng macro như một cách thay thế cho hàm khi nó là phương án cuối cùng. 
 
 \subsection{Sử dụng chương 8 – Các kỹ thuật bẫy lỗi và phòng ngừa lỗi -- Defensive Programming}
 \noindent Các kĩ thuật tiêu biểu gồm:
 
 \subsubsection{KT8.1.Production code should handle errors in a more sophisticated way than "garbage in, garbage out."}
+Khi code như là một sản phẩm thương mại thì nó nên xử lý những lỗi một cách tinh vi hơn chỉ là việc "rác vào thế nào, rác ra như vậy".
+\vspace*{3mm}
+
+\noindent {\bfseries Bảo vệ chương trình của bạn từ những đầu vào không hợp lệ: }
+
+Trong một phần mềm thương mại, việc "rác vào thế nào, rác ra như vậy"  không hề tốt. Một chương trình tốt sẽ không bao giờ để "rác đi ra", bất kể cái gì nó nhận vào. Một chương trình tốt sử dụng "rác vào, không gì xuất ra" hay "rác vào, thông báo lỗi xuất ra". Theo chuẩn ngày nay, "Rác vào thế nào, rác ra như vậy" đánh dấu cho một chương trình luộm thuộm, thiếu tính bảo mật. 
+
+Có ba cách để xử lý "rác" vào chương trình của bạn:
+\begin{itemize}
+	\item Kiểm tra tất cả những giá trị của dữ liệu từ nguồn bên ngoài: ví dụ file, dữ liệu người dùng, mạng, hoặc một vài interface bên ngoài chương trình. 
+	\item Kiểm tra giá trị của tất cả tham số vào hàm. 
+	\item Quyết định xem làm thế nào để xử lý những giá trị đầu vào không hợp lệ.  
+\end{itemize}
+
 
 \subsubsection{KT8.2. Defensive-programming techniques make errors easier to find, easier to fix, and less damaging to production code.}
+Kỹ thuật lập trình phòng thủ làm cho những lỗi xảy ra dễ dàng được tìm thấy, được sửa chữa và gây hại ít hơn chương những đoạn code của chương trình. 
 
 \subsubsection{KT8.3. Assertions can help detect errors early, especially in large systems, high-reliability systems, and fast-changing code bases.}
+Assertion - "Sự tuyên bố" có thể giúp phát hiện những lỗi sớm, đặc biệt trong một hệ thống lớn, độ tin cậy cao, thường xuyên thay đổi mã nguồn. 
+\vspace*{3mm}
+
+Một assertion là những dòng code được sử dụng trong khi phát triển phần mềm -- 	thông thường nó là một hàm hoặc một macro -- Cái mà cho phép chương trình được kiểm tra bản thân nó khi chạy. Khi một assert đúng, không có gì xảy ra. Khi nó sai, nó báo hiệu rằng một lỗi không mong đợi đã xảy ra. Assertion thực sự hữu dụng trong những chương trình lớn, phức tạp, độ tin cậy cao. Nó cho phép lập trình viên nhanh chóng tìm ra những sai sót, những thứ không phù hợp trong giả định của interface đang dùng, những lỗi xảy ra khi thay đổi code. 
+
+Assertion có thể được sử dụng để kiểm tra những giả định sau: 
+\begin{itemize}
+	\item 
+\end{itemize}
 
 \subsubsection{KT8.4 The decision about how to handle bad inputs is a key error-handling decision and a key high-level design decision.}
 
