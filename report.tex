@@ -62,12 +62,12 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 language=Python,
-basicstyle=\ttm\small,
+basicstyle=\sffamily\ttm,
 otherkeywords={self},             % Add keywords here
-keywordstyle=\bfseries\ttb\color{deepblue}\small,
+keywordstyle=\sffamily\bfseries\ttb\color{deepblue},
 emph={MyClass,__init__},          % Custom highlighting
-emphstyle=\ttb\color{deepred}\small,    % Custom highlighting style
-stringstyle=\color{deepgreen}\small,
+emphstyle=\sffamily\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\sffamily\color{deepgreen},
 frame=tb,                         % Any extra options here
 showstringspaces=false ,        % 
 tabsize = 4
@@ -90,8 +90,25 @@ tabsize = 4
 \newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
 % END PYTHON
 
+\patchcmd{\abstract}{LỜI NÓI ĐẦU}{Summary}{}{}
+
 
 \begin{document}
+
+\begin{center}
+\LARGE\bfseries LỜI NÓI ĐẦU
+\end{center}
+
+Lập trình là một công việc ngày càng trở nên phổ biến và quan trọng đối với những người làm việc trong lĩnh vực công nghệ nói chung. Việc viết được một chương trình để mô phỏng lại một số thao tác hữu hạn các bước mà máy tính phải làm, chẳng qua là việc sử dụng ngôn ngữ lập trình để tạo nên một dãy các câu lệnh yêu cầu các thao tác tương ứng của máy tính để đáp ứng được mục đích đề ra ban đầu của người lập trình không phải là một công việc quá khó. Cũng như việc giao tiếp hằng ngày giữa con người với nhau, chúng ta chỉ cần biết cách dùng từ, biết một chút ngữ pháp, là có thể giúp được đối phương hiểu được điều ta muốn truyền đạt. Tuy nhiên, giao tiếp thì có Nghệ Thuật Giao Tiếp, và cũng thế, lập trình phải có Kỹ Thuật Lập Trình. Nếu giao tiếp tốt là một yếu tố quyết định thành công của nhiều người, thì Kỹ Thuật Lập Trình cũng là một trong những yếu tố đánh giá được trình độ của người lập trình viên. Lập trình cũng có nghệ thuật, kỹ thuật cũng có nét đẹp riêng của nó. 
+
+Ngôn ngữ lập trình hiện nay rất đa dạng, rất nhiều những ngôn ngữ với những thế mạnh riêng được sử dụng. Tuy nhiên chung quy lại, công việc lập trình vẫn luôn tuân theo những quy tắc nhất định. Và luôn tồn tại những chuẩn mực chung trong việc sử dụng và bố trí những câu lệnh sao cho chương trình của chúng ta ngắn gọn, dễ hiểu, dễ phân tích, dễ tìm kiếm, dễ phát triển,... Nắm được những chuẩn mực đó, sẽ không còn là vấn đề trong việc cố gắng biến những ý tưởng, thuật toán thành những chương trình cho dù bạn được yêu cầu phải sử dụng ngôn ngữ gì đi chăng nữa!
+
+Từ yêu cầu thực tiễn đó, nhóm chúng em xin tổng hợp lại một số nguyên tắc, cũng như kinh nghiệm của các chuyên gia nổi tiếng thể giới về công nghệ thông tin. Tài liệu sử dụng gồm có Steve McConnell. Code Complete, Second Edition ; Publisher: Microsoft Press; Pub Date: une 09, 2004; Print ISBN: 0-7356-1967-0; Pages: 960. Và bài giảng Introduction to Computer Science and Programming in Python tại https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-0001-introduction-to-computer-science-and-programming-in-python-fall2016/index.htm của trường đại học MIT. Cùng với sự kết hợp ăn ý và phân chia công việc hợp lý, cả nhóm đã hoàn thành bản báo cáo với tất cả tâm huyết và đam mê nghiên cứu. Xin được gửi lời cảm ơn chân thành đến Thầy …., giảng viên khoa…. Trường Đại học Bách Khoa Hà Nội – đã hết lòng giúp đỡ, hướng dẫn, chỉ dạy tận tình để nhóm em có thể hoàn thành được đề tài này.
+
+Vì đây là một trong những bản báo cáo đầu tiên mà nhóm thực hiện nên không thể tránh khỏi sai sót, rất mong được nhận mọi ý kiên góp ý từ thầy cô và các bạn. 
+
+Xin chân thành cảm ơn!
+\newpage 
 
 \tableofcontents 
 \newpage 
@@ -102,22 +119,183 @@ tabsize = 4
 \noindent Các kỹ thuật tiêu biểu gồm: 
 
 \subsubsection{KT 14.1. The strongest principle for organizing straight-line code is ordering dependencies.}
+Nguyên tắc mạnh nhất trong tổ chức câu lệnh tuần tự là phụ thuộc tuần tự.
+\begin{itemize}
+	\item Những câu lệnh có quan hệ trực tiếp lẫn nhau được nhóm vào thành một khối.
+	\item Viết code để đọc từ trên xuống .
+	\item Sự phụ thuộc giữa các dòng lệnh phải được tổ chức rõ ràng.
+\end{itemize}
+Ví dụ trong insertion sort:
+\begin{python}
+def insertion_sort(a, n):
+	for i in range(0, n):
+		for j in range(i, n):
+			if a[i] > a[j]:
+				x = a[i]
+				a[i] = a[j]
+				a[j] = x
+	print("\nDay sau khi sap xep: ")
+	print(a)
+
+sophantu = input("\nNhap so phan tu: ")
+sophantu = int(sophantu)
+b = []
+for i in range(0, sophantu):
+	alpha = int(input("a[" + str(i) + "] = "))
+	b.append(alpha)
+insertion_sort(b, sophantu)
+\end{python}
 
 \subsubsection{KT 14.2. Dependencies should be made obvious through the use of good routine names, parameter lists, comments, and—if the code is critical enough—housekeeping variables.}
+Sự phụ thuộc giữa các câu lệnh nên được thể hiện rõ qua việc đặt tên thủ tục, danh sách tham số, chú thích, và có đủ các biến housekeeping để kiểm tra thứ tự phụ thuộc của các thành phần critical của mã.
+\begin{itemize}
+	\item Đặt tên chương trình để câu lệnh là rõ ràng.
+	\item Tổ chức code để câu lệnh rõ ràng.
+	\item Sử dụng thông số để câu lệnh rõ ràng.
+\end{itemize}
+Ví dụ trong Check Prime Number:
+
+\begin{python}
+import math
+
+def CheckPrime(a):
+	if a < 2: return 0
+	elif a == 2: return 1
+	elif a == 3: return 1
+	else:
+		for i in range(2, int(math.sqrt(a) + 1)):
+			if a % i == 0: return 0
+			else: return 1
+
+a = int(input('a = '))
+if CheckPrime(a) == 1:
+	print('a la so nguyen to')
+else:
+	print('a khong la so nguyent to')
+\end{python}
+
 
 \subsubsection{KT 14.3. If code doesn't have order dependencies, keep related statements as close together as possible.}
+Nếu đoạn mã không có phụ thuộc theo thứ tự, các câu lệnh có liên quan với nhau nên được đặt gần nhau nhất có thể.
+\begin{itemize}
+	\item Tạo code để đọc từ trên xuống dưới. Tránh rẽ nhánh và vòng vo.
+	\item Gom những biến liên quan lại và cố gắng đặt chúng gần nhau.
+	\item Giảm thiểu thời gian sống của biến, đồng thời rút ngắn tối đa khoảng cách giữa các tham chiếu trên cùng một đối tượng. Điều này làm giảm cơ hội của lỗi khởi tạo, tăng khả năng phát hiện các đối tượng cần tìm kiếm.
+	\item Gom những ý liên quan một cách logic. Nếu câu lệnh liên quan về dữ liệu hay mục đích, giữ chúng gần nhau nhất có thể.
+\end{itemize}
 
+Ví dụ trong phần CheckPrime: 
+\begin{python}
+def CheckPrime(a):
+	if a < 2: return 0
+	elif a == 2: return 1
+	elif a == 3: return 1
+	else:
+		for i in range(2, int(math.sqrt(a) + 1)):
+			if a % i == 0: return 0
+			else: return 1
+\end{python}
 
 \subsection{Sử dụng chương 15 – Sử dụng câu lệnh If-Then}
 \noindent Các kỹ thuật tiêu biểu gồm: 
 
 \subsubsection{KT 15.1. For simple if-else statements, pay attention to the order of the if and else clauses, especially if they process a lot of errors. Make sure the nominal case is clear.}
+Đối với câu đơn if-else, chú ý đến thứ tự của if và else , đặc biệt là nếu chúng xử lý rất nhiều lỗi. Hãy chắc chắn rằng các trường hợp danh nghĩa là rõ ràng. 
+\begin{itemize}
+	\item Vạch ra đường thực hiện thông thường trước rồi mới đặt câu lệnh điều kiện cho trường hợp bất thường. điều này cần thiết cho việc dễ đọc mã nguồn cũng như thực thi.
+	\item Với các câu điều kiện so sánh >, >=, <, <=, hãy đảm bảo khi điều kiện = xảy ra thì rẽ nhánh hợp lí.
+	\item Đưa trường hợp ta mong chờ sẽ thực hiện (trường hợp bình thường) sau câu lệnh if hơn là else. Điều này đảm bảo khi ta xem lại code, có thể tìm kiếm nhanh chóng hơn, máy tính thực hiện cũng có thể nhanh hơn trong nhiều trường hợp do không cần xét quá nhiều trường hợp hãn hữu.
+	\item Tránh sử dụng câu lệnh if rỗng (null if). Nếu sử dụng, hãy chú thích để người đọc dễ hiểu hơn.
+	\item Hãy xem xét các mệnh đề else Nếu bạn nghĩ rằng bạn cần một câu lệnh đơn giản if, hãy cân nhắc xem bạn có cần sử dụng mệnh để else không?
+	\item Kiểm tra lại tính đúng đắn của các mệnh đề, điều này là rõ ràng cần thiết.
+	\item Kiểm tra sự đảo ngược của lệnh if và else. Rất có thể mệnh đề if và else của bạn bị đảo ngược cho nhau. 
+\end{itemize}
+Ví dụ thuật toán Bubble Sort:
+\begin{python}
+#giai phuong trinh bac hai:
+import math
+def solve_equation(a, b, c):
+	if a == 0:
+		print('day khong phai phuong trinh bac hai')
+	else:
+		delta = b*b - 4*a*c
+		if delta < 0:
+			print('phuong trinh vo nghiem thuc')
+		elif delta == 0:
+			x = float(-float(b) / (2*a))
+			print('phuong trinh co nghiem kep x = ')
+			print(x)
+		else:
+			x1 = float((-b+math.sqrt(delta))/(2*a))
+			x2 = float((-b-math.sqrt(delta))/(2*a))
+			print('phuong trinh co hai nghiem phan biet x1 = ' 
+				str(x1) + 'x2 = ' + str(x2))
+\end{python}
 
 \subsubsection{KT 15.2. For if-then-else chains and case statements, choose an order that maximizes read-ability.}
+Đối với chuỗi các mệnh đề if-then-else và câu lệnh case, chọn một thứ tự có thể tối đa hóa khả năng đọc.
+\begin{itemize}
+	\item Sử dụng các hàm thay vì dùng kết hợp các câu lệnh and, or.
+	\item Đưa trường hợp mong chờ sẽ được thực hiện nhất lên đầu tiên.
+	\item Hãy đảm bảo tất cả các trường hợp đều đã được xem xét.
+	\item Nếu ngôn ngữ không hỗ trợ chuỗi lệnh if-then-else thì sử dụng các câu lệnh case và ngược lại.
+\end{itemize}
+
+\begin{python}
+#giai phuong trinh bac hai:
+import math
+def solve_equation(a, b, c):
+	if a != 0:
+		delta = b*b - 4*a*c
+		if delta > 0:
+            x1 = float((-b + math.sqrt(delta))/(2*a))
+			x2 = float((-b - math.sqrt(delta))/(2*a))
+			print('phuong trinh co hai nghiem phan biet x1 = ' 
+							+ str(x1) + 'x2 = ' + str(x2))
+			
+		elif delta == 0:
+			x = float(-b/(2*a))
+			print('phuong trinh co nghiem kep x =')
+			print(x)
+
+		else:
+			print('phuong trinh vo nghiem thuc')
+	else:
+		print('day khong phai phuong trinh bac hai')
+\end{python}
 
 \subsubsection{KT 15.3. To trap errors, use the default clause in a case statement or the last else in a chain of if-then-else statements.}
+Để bẫy lỗi, sử dụng default khi sử dụng lệnh case hoặc else khi sử dụng chuỗi lệnh if – then – else.
+\vspace*{3mm}
+
+Lưạ chọn thứ tự các trường hợp để có hiệu quả nhất:
+\begin{itemize}
+	\item Thứ tự các trường hợp theo bảng chữ cái hoặc số lượng.
+	\item Đặt các trường hợp thong thường lên đầu.
+	\item Sắp xếp các trường hợp theo xác suất.
+\end{itemize}
+Ví dụ trong đoạn code sau: 
+\begin{python}
+s = input('Chon mot trong nhung phuong an A,B,C')
+if (s == 'A'):
+	dothecaseA()
+elif (s == 'B'):
+	dothecaseB()
+elif (s == 'C'):
+	dothecaseC()
+else:
+	print('Ban da nhap sai, ban phai chon mot trong nhung' +
+		' phuong an A,B,C')
+\end{python}
+
 
 \subsubsection{KT 15.4. All control constructs are not created equal. Choose the control construct that's most appropriate for each section of code.}
+Tất cả các cấu trúc điều khiển không được tạo ra như nhau. Chọn cấu trúc điều khiển mà là thích hợp nhất cho mỗi phần của mã.
+\begin{itemize}
+	\item Chỉ sử dụng switch – case cho những trường hợp biến case đơn giản (char, số).
+	\item Sử dụng default, else để xử lý các trường hợp không mong muốn.
+	\item Python không hỗ trợ lệnh switch-case, cho nên ta buộc phải sử dụng cấu trúc điều khiển if-then-else.
+\end{itemize}
 
 
 \subsection{Sử dụng chương 16 – Vòng lặp}
@@ -308,26 +486,183 @@ Trong một số ít trường hợp, lệnh goto là cách tốt nhất để v
 \subsection{Sử dụng chương 10 -- Các kỹ thuật chung làm việc với biến}
 \noindent Các kĩ thuật tiêu biểu gồm:
 \subsubsection{KT10.1. Data initialization is prone to errors, so use the initialization techniques described in this chapter to avoid the problems caused by unexpected initial values.}
-\subsubsection{KT10.2. Minimize the scope of each variable. Keep references to a variable close together. Keep it local to a routine or class. Avoid global data.}
-\subsubsection{KT10.3. Keep statements that work with the same variables as close together as possible.}
-\subsubsection{KT10.4. Early binding tends to limit flexibility but minimize complexity. Late binding tends to increase flexibility but at the price of increased complexity.}
-\subsubsection{KT10.5. Use each variable for one and only one purpose.}
+Việc khởi tạo dữ liệu dễ gặp lỗi, sử dụng kĩ thuật mô tả khởi tạo trong phần này để tránh các vấn đề
+không mong muốn gây ra bởi giá trị ban đầu.
+\vspace*{3mm}
 
+\noindent {\bfseries Kiểu dữ liệu: }
+\begin{itemize}
+	\item Kiểu số:
+	\begin{itemize}
+		\item Kiểu int: Kiểu số nguyên có dấu. 
+		\item Kiểu long: Kiểu số nguyên giới hạn kích cỡ lớn hơn nhiều kiểu int. 
+		\item Kiểu float: Kiểu số thực chấm phẩy động. 
+		\item Kiểu số phức: Có dạng a + bi, khai báo trong Python: complex(x, y)
+	\end{itemize}	
+	
+	\item Kiểu string. 
+	\item Kiểu list.
+	\item Kiểu tuple. 
+	\item Kiểu dictionary. 
+	\item Kiểu boolean. 		
+\end{itemize}
+Đầu tiên để tạo dữ liệu có hiệu quả là phải biết loại dữ liệu cần tạo. Trải qua bài kiểm tra các
+kiểu dữ liệu sẽ giúp bạn xác định được sự hiểu biết của mình về các kiểu dữ liệu.
+
+\subsubsection{KT10.2. Minimize the scope of each variable. Keep references to a variable close together. Keep it local to a routine or class. Avoid global data.}
+Giảm thiểu phạm vi của mỗi biến. Giữ những biến có liên quan ở gần nhau. Giữ trong hàm hoặc
+lớp ( biến cục bộ ) . Tránh sử dụng biến toàn cục.
+\vspace*{3mm}
+
+Ví dụ bài toán sắp xếp: 
+\begin{python}
+#string handler 01
+def Funtion_XuLiChuoi01(String):
+    i=0
+    L1=str.split(String)
+    a=len(L1)
+    for i in range(a):
+        if i==0:
+            s=L1[a-1]+" "+L1[0]
+        if i>0 and i<a-1:
+            s=s+" "+L1[i]
+    return s
+#string handler 02
+def Funtion_XuLiChuoi02(String):
+    i=0
+    L1=str.split(String)
+    a=len(L1)
+    trungGian=L1[0]
+    for i in range(a):
+        if i==1:
+            s=L1[1]+" ";
+        if i>1:
+            s=s+" "+L1[i]
+    s=s+" "+trungGian
+    return s
+#sap xep
+def Funtion_SapXep(list):
+    a=len(list)
+    i=0
+    L1,L2=[],[]
+
+    for i in range (a):
+            L1.append(Funtion_XuLiChuoi01(list[i]))
+    L1.sort()
+    for i in range (a):
+        L2.append(Funtion_XuLiChuoi02(L1[i]))
+    return L2
+list=["Nguyen Van Trung","Cao Thanh Tung", 	\
+		"Tong Van Vinh","Ta Quang Tung"]
+print("Ban vua nhap: ",list)
+listSapXep=Funtion_SapXep(list)
+print(listSapXep)
+\end{python}
+
+\subsubsection{KT10.3. Keep statements that work with the same variables as close together as possible.}
+Giữ các câu lệnh sử dụng biến chung càng gần nhau càng tốt. \\
+Ví dụ giải phương trình bậc 2:
+\begin{python}
+i = 1
+while 1:
+    print("Giai phuong trinh bac hai lan ", i)
+    a=float(input("Nhap vao a=\n"))
+    b=float(input("Nhap vao b=\n"))
+    c=float(input("Nhap vao c=\n"))
+    if a == 0 :
+        if b == 0:
+            if c == 0:
+                print("Phuong trinh co vo so nghiem")
+            else:
+                print("Phuong trinh vo nghiem")
+        else:
+            print("Phuong trinh co nghiem x=",-c/b)
+    else:
+        denta = b*b - 4*a*c
+        if denta < 0:
+            x1 = complex(-b/(2*a),math.sqrt(-denta)/(2*a))
+            x2 = complex(-b/(2*a),-math.sqrt(-denta)/(2*a))
+            print("Phuong trinh co nghiem phuc x1=", x1," va x2=", x2)
+        elif denta == 0:
+            print("Phuong trinh co nghiem x=",-b / (2*a))
+        else:
+            x1=(-b + math.sqrt(denta)) / (2*a)
+            x2=(-b - math.sqrt(denta)) / (2*a)
+            print("Phuong trinh co nghiem x1=",x1," va x2=",x2)
+    string=str.lower(input("Nhap no de thoat:\n"))
+    if string=="no":
+        break
+    else:
+        i = i + 1
+\end{python}
+\subsubsection{KT10.4. Early binding tends to limit flexibility but minimize complexity. Late binding tends to increase flexibility but at the price of increased complexity.}
+Sự ràng buộc sớm có xu hướng giới hạn tính linh hoạt nhưng giảm bớt sự phức tạp. Sự ràng buộc sau đó có xu hướng tăng tính linh hoạt nhưng cái giá là việc tăng lên của độ phức tạp. 
+
+Thời gian ràng buộc là thời gian mà một biến mà giá trị của nó được được buộc với nhau.  Có phải chúng được buộc với nhau tại thời điểm code được viết? Sau khi được biên dịch? Khi được nạp? Hay khi chương trình chạy?
+\vspace*{3mm}
+
+Một vài thời điểm mà giá trị được buộc vào biến: 
+\begin{itemize}
+	\item Thời điểm viết code (Dành cho những giá trị "magic").
+	\item Thời điểm biên dịch (Dành cho những hằng số được đặt tên).
+	\item Thời điểm nạp chương trình (Ví dụ như đọc những giá trị từ nguồn bên ngoài chẳng hạn như Windows Registry).
+	\item Thời điểm tạo một object.
+	\item Chỉ vừa đúng thời điểm (Như là đọc giá trị mỗi lần một cửa sổ được vẽ lên màn hình). 
+	\item Liên quan đến việc sử dụng các cấu trúc điều khiển rẽ nhánh và vòng lặp…
+\end{itemize}
+
+
+\subsubsection{KT10.5. Use each variable for one and only one purpose.}
+Sử dụng mỗi biến cho duy nhất một mục đích. 
+
+\noindent Ví dụ: Chương trình minh họa biến tên sum dùng để tính tổng các số nguyên từ 1 đến 10
+\begin{python}
+sum = 0
+for i in range(1, 11):
+	sum += i
+print(sum) 
+\end{python}
 
 \subsection{Sử dụng chương 11 -- Kỹ thuật đặt tên biến}
 \noindent Các kỹ thuật tiêu biểu gồm:
 
 \subsubsection{KT11.1. Good variable names are a key element of program readability. Specific kinds of variables such as loop indexes and status variables require specific considerations.}
+Tên biến tốt là thành phần chính quyết định tính dễ đọc của chương trình. Những loại biến cụ thể như chỉ số trong vòng lặp và những biến trạng thái yêu cầu những xem xét cụ thể hơn. 
+\vspace*{3mm}
+
+Ví dụ biến tên:  sql\_request, client\_socket, student\_counter, ... 
 
 \subsubsection{KT11.2. Names should be as specific as possible. Names that are vague enough or general enough to be used for more than one purpose are usually bad names.}
+Tên nên cụ thể nhất có thể. Những tên mơ hồ hoặc quá tổng quát sẽ có thể được sử dụng nhiều hơn một mục đích, và thông thường đó là những tên tồi. 
+\vspace*{3mm}
+
+Ví dụ: data, a, b, u, count, ... là những tên tồi.
 
 \subsubsection{KT11.3. Naming conventions distinguish among local, class, and global data. They distinguish among type names, named constants, enumerated types, and variables.}
+Quy ước đặt tên phải phân biệt giữa biến cục bộ, biến toàn cục và biến trong hàm. Chúng đồng thời cũng phải giúp phân biệt được kiểu dữ liệu, hằng số, kiểu liệt kê, hay là một biến. 
+\vspace*{3mm}
+\begin{itemize}
+	\item Kí tự phải bắt đầu là một dấu “\_ ” hoặc một chữ cái.
+	\item Sau kí tự đầu có thể là nhiều kí tự, hoặc nhiều con số.
+	\item Python không cho phép sử dụng các kí tự đặc biệt như: @, \#, \$, \%...
+	\item Tên class bắt đầu với một  kí tự viết hoa, các định dạng khác là chữ thường. Ví dụ: Person, StudentInfo,...
+	\item Nếu đặt tên với việc bắt đầu với một kí tự gạch dưới, ta hiểu rằng đay là một private. Nếu bắt đầu bởi hai kí tự gạch dưới liên tiến, ta hiểu rằng đây là một private mạnh.
+	\item Biến đếm ta thường dùng là các chữ cái thường như i,j,k. Chiều dài chuỗi có thể dùng size hoặc length, Hằng thường dùng const, final.
+	\item Tránh đặt tên biến, lớp.. trùng với keyword 
+\end{itemize}
 
 \subsubsection{KT11.4. Regardless of the kind of project you're working on, you should adopt a variable naming convention. The kind of convention you adopt depends on the size of your program and the number of people working on it.}
+Bất kể loại dự án nào mà bạn làm đang làm việc, bạn nên thích thông qua một quy ước đặt tên biến cho dự án đó. Kiểu quy ước nào phụ thuộc vào kích thước chương trình của bạn và số lượng người làm việc với nó. 
+
 
 \subsubsection{KT11.5. Abbreviations are rarely needed with modern programming languages. If you do use abbreviations, keep track of abbreviations in a project dictionary or use the standardized prefixes approach.}
+Viết tắt hiếm khi cần thiết với những ngôn ngữ lập trình hiện đại. Nếu bạn sử dụng từ viết tắt, luôn luôn giám sát chúng bằng cách thêm vào từ điển của dự án hoặc sử dụng một tiền tố đã được chuẩn hoá. 
+\vspace*{3mm}
+
+Ví dụ một số tên viết tắt phổ biến: src, dest, info, inc, dec, ...
 
 \subsubsection{KT11.6. Code is read far more times than it is written. Be sure that the names you choose favor read-time convenience over write-time convenience.}
+Code được đọc nhiều hơn rất nhiều được viết. Hãy chắc chắn rằng những tên bạn chọn sẽ ủng hộ sự thuận tiện cho thời điểm đọc hơn là thời điểm viết. 
 
 
 \subsection{Sử dụng chương 12 -- Các kiểu dữ liệu cơ bản}
