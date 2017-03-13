@@ -124,22 +124,183 @@ tabsize = 4
 \noindent Các kỹ thuật tiêu biểu gồm: 
 
 \subsubsection{KT 16.1. Loops are complicated. Keeping them simple helps readers of your code.}
+Vòng lặp thì phức tạp. Giữ cho vòng lặp trở nên đơn giản hơn cho người đọc dễ đọc code của bạn hơn.
+\vspace*{3mm}
+
+Lựa chọn loại vòng lặp:
+\begin{itemize}
+	\item Sử dụng biến đếm giúp xác định số lần lặp cụ thể.
+	\item Đánh giá một vòng lặp ở thời gian mà vòng lặp sẽ thực hiện, nó sẽ kết thúc sau bao nhiêu vòng lặp hay lặp vô hạn.
+	\item Các loại vòng lặp khác nhau thì khác biệt ở vị trí câu lệnh kiểm tra điều kiện kết thúc (vị trí này có thể ở đầu, giữa hoặc ở cuối vòng lặp).
+	\item Các loại vòng lặp cũng được phân biệt bằng độ linh hoạt của chúng -> là việc các vòng lặp sẽ chạy trong một số lần nhất định hay phải kiểm tra sự kết thúc sau mỗi chu kì.
+	\item Sử dụng linh hoạt vòng lặp while và for.
+\end{itemize}
+Vòng lặp while: 
+\begin{python}
+count = 0
+while (count < 9):
+	print('So thu tu cua ban la: ', count)
+	count += 1
+\end{python}
+Vòng lặp for:
+\begin{python}
+for letter in 'Python':
+	print 'Chu cai hien tai: ', letter
+qua = ['chuoi', 'tao', 'xoai']
+for q in qua:
+	print "Ban co thich an: ", q
+\end{python}
 
 \subsubsection{KT16.2. Techniques for keeping loops simple include avoiding exotic kinds of loops, minimizing nesting, making entries and exits clear, and keeping housekeeping code in one place.}
+Kĩ thuật để làm cho vòng lặp trở nên đơn giản bao gồm tránh các vòng lặp lạ, tối thiểu các vòng lặp lồng nhau, tạo và thoát vòng lặp một cách rõ ràng, giữ các housekeeping code ở một vị trí.
+\vspace*{3mm}
+
+\noindent Minimizing nesting:
+\begin{itemize}
+	\item Độ dài vòng lặp có thể được tính bởi số dòng của vòng lặp hay số các vòng lặp lồng nhau.
+	\item Nên tạo các vòng lặp ngắn sao cho có thể quan sát tất cả vòng lặp trong một lần.
+	\item Hạn chế số lượng các vòng lặp lồng nhau ở con số 3.
+	\item Nếu vòng lặp dài thì phải thật rõ ràng.
+\end{itemize}
+Lồng vòng lặp while để in các số nguyên tố nhỏ hơn 100:
+\begin{python}
+i = 2
+while (i < 100):
+	j = 2
+	while (j <= i / j):
+		if i % j == 0:
+			break
+		j += 1
+	if (j > i / j):
+		print i, " la so nguyen to"
+	i += 1
+\end{python}
+
+\noindent Making entries clearly:
+\begin{itemize}
+	\item Đặt các giá trị khởi tạo cho các biến trong vòng lặp trước khi vào vòng lặp đó.
+	\item Truy cập vòng lặp chỉ tại một vị trí. Việc này giúp tránh xảy ra lỗi khi ta copy hoặc di chuyển vòng lặp tới một vị trí khác trong mã nguồn. Hơn nữa, khi kích thước chương trình lớn, việc đặt các lệnh khởi tạo trước vòng lặp giúp cho việc thay đổi nó dễ dàng, nhanh chóng hơn.
+	\item Sử dụng vòng lặp while, for cho vòng lặp vô hạn.
+\end{itemize}
+
+\noindent Making exits clearly:
+\begin{itemize}
+	\item Đảm bảo rằng vòng lặp có thể kết thúc.
+	\item Tạo điều kiện kết thúc rõ ràng cho vòng lặp.
+\end{itemize}
+Lặp vô hạn:
+\begin{python}
+var = 1
+while var == 1: 	# lenh nay tao mot vong lap vo han
+	num = raw_input("Hay nhap mot so: ")
+	print "So da nhap: ", num
+\end{python}
+Sử dụng $break$ và $continue$ để điều khiển vòng lặp: 
+\begin{python}
+for letter in 'Python': 	# vi du thu nhat
+	if letter == 'h':
+		break
+	print 'Chu cai hien tai: ', letter
+
+var = 10					# vi du thu hai
+while var > 0:
+	print 'Gia tri bien hien tai la: ', var
+	var = var - 1
+	if var == 5:
+		break
+\end{python}
+
+\begin{python}
+for letter in 'Python':     # Vi du thu nhat
+   if letter == 'h':
+      continue
+   print 'Chu cai hien tai :', letter
+
+var = 10                    # Vi du thu hai
+while var > 0:              
+   var = var -1
+   if var == 5:
+      continue
+   print 'Gia tri bien hien tai la :', var
+\end{python}
+\noindent Keep housekeeping code in one place:
+\begin{itemize}
+	\item Housekeeping code là những lệnh như i++, j = j+1,… để điều khiển vòng lặp. Nên đặt các lệnh này ở đầu hoặc cuối vòng lặp.
+\end{itemize}
 
 \subsubsection{KT 16.3. Loop indexes are subjected to a great deal of abuse. Name them clearly, and use them for only one purpose.}
+Các chỉ số vòng lặp bị lạm dụng rất nhiều. Đặt tên cho chúng thật rõ ràng và chỉ sử dụng cho một mục đích.
+\vspace*{3mm}
+
+\noindent Cách dùng các chỉ số vòng lặp:
+\begin{itemize}
+	\item Dùng biến đếm hoặc biến thứ tự.
+	\item Biến đếm nên là số nguyên và không nên là số thực dấu phẩy động.
+	\item Sử dụng các tên biến có ý nghĩa khi làm việc với các vòng lặp lồng nhau (thay vì dùng i, j, k,… thì đặt tên có sự gợi nhớ) -> không mắc phải sử dụng nhầm tên biến hay sử dụng một biến nhiều lần.
+	\item Hạn chế phạm vi của các biến vòng lặp chỉ trong vòng lặp đó.
+\end{itemize}
 
 \subsubsection{KT 16.4.Think through the loop carefully to verify that it operates normally under each case and terminates under all possible conditions.}
+Xem xét toàn bộ vòng lặp một cách cẩn thận để kiểm chứng rằng nó đã hoạt động bình thường trong mọi trường hợp và có thể kết thúc dưới mọi điều kiện.
+\begin{itemize}
+	\item Đảm bảo rằng vòng lặp kết thúc được (bằng cách cho chạy thử một số lần lặp với các giá trị cụ thể, xem xét tất cả các trường hợp có thể xảy ra, các điểm kết thúc, các ngoại lệ).
+	\item Viết các điều kiện kết thúc vòng lặp rõ ràng.
+	\item Kiểm tra vòng lặp có kết thúc với kết quả như mong muốn hay không.
+\end{itemize}
 
 
 \subsection{Sử dụng chương 17 – Các cấu trúc điều khiển khác}
 \noindent Các kỹ thuật tiêu biểu gồm: 
 
 \subsubsection{KT 17.1. Multiple returns can enhance a routine's readability and maintainability, and they help prevent deeply nested logic. They should, nevertheless, be used carefully.}
+Chương trình con có nhiều lần trả về có thể nâng cao khả năng đọc và bảo trì của chương trình và giúp ngăn ngừa sai sót trong những đoạn lồng nhau. Dù vậy chúng nên được sử dụng cẩn thận.
+\begin{itemize}
+	\item Sử dụng $return$ làm chương trình con dễ đọc hơn.
+	\item Giúp ngăn chặn việc xảy ra lỗi khi chạy chương trình.
+	\item Khi dùng $return$ phải cẩn trọng xem xét hết các trường hợp.
+	
+\end{itemize}
+\begin{python}
+def min(x, y):
+	if x < y:
+		return x
+	elif y > x: 
+		return y
+	else
+		return x
+\end{python}
 
 \subsubsection{KT17.2. Recursion provides elegant solutions to a small set of problems. Use it carefully, too.}
+Một tập các vấn đề nhỏ thì được giải quyết bằng phương pháp đệ quy. Phải sử dụng đệ quy thật cẩn thận.
+\begin{itemize}
+	\item Thuật toán đệ quy là thuật toán dựa trên phương pháp chia để trị, chia bài toán thành các bài toán con giải quyết các vấn đề nhỏ hơn bằng cách tự gọi đến chính nó với đầu vào kích thước nhỏ hơn.
+	\item Sử dụng thuật toán đệ quy là thuận tiện khi các bài toán con dễ xử lý trong khi với các bài toán lớn thì lại phức tạp.
+	\item Đệ quy là một trong những cách tiếp cận hiệu quả và đơn giản đối với một bài toán khó, giúp cho người đọc code có thể dễ dàng nắm bắt được ý tưởng của lập trình viên.
+\end{itemize}
+
+\noindent Chú ý khi sử dụng đệ quy:
+\begin{itemize}
+	\item Đảm bảo rằng đệ quy phải có điểm dừng.
+	\item Tránh sử dụng đệ quy xoay vòng (ví dụ A gọi B, B gọi C, C gọi A), việc này là nguy hiểm vì dễ dẫn đến chạy vô hạn.
+	\item Kiểm soát xem stack đang dùng còn đủ dung lượng không.
+	\item Không nên sử dụng đệ quy cho các bài toán có thể giải quyết dễ dàng bằng vòng lặp nói chung (ví dụ như bài toán tính giai thừa, tìm số Fibonaci,…).
+\end{itemize}
+\begin{python}
+def factorial(n):
+	if n == 0 or n == 1:
+		return 1
+	else 
+		return n * factorial(n - 1)
+\end{python}
+
 
 \subsubsection{KT17.3. In a few cases, gotos are the best way to write code that's readable and maintainable. Such cases are rare. Use gotos only as a last resort.}
+Trong một số ít trường hợp, lệnh goto là cách tốt nhất để viết code trở nên dễ đọc và dễ bảo trì. Tuy nhiên các trường hợp này rất hiếm khi xảy ra. Việc sử dụng gôt chỉ là phương án cuối cùng.
+\begin{itemize}
+	\item Goto thường được dùng để xử lý các cấu trúc rẽ nhánh lồng nhau.
+	\item Lý do goto không được khuyến khích sử dụng là nó có thể được thay thế bởi các lệnh khác (ví dụ break/continue) hoặc gom phần code mà goto chỉ đến vào trong hàm.
+	\item Trong python không hỗ trợ lệnh goto.
+\end{itemize}
 
 
 \section{\bfseries Tổng hợp kỹ thuật làm việc với các biến}
@@ -173,7 +334,7 @@ tabsize = 4
 \noindent Các kĩ thuật tiêu biểu gồm:
 \subsubsection{KT12.1. Working with specific data types means remembering many individual rules for each type. Use this chapter's checklist to make sure that you've considered the common problems.}
 
-	Làm việc với những kiểu dữ liệu cụ thể nghĩ là phải nhớ nhiều những quy tắc riêng biệt cho từng kiểu. Như những quy tắc dưới đây:
+	Làm việc với những kiểu dữ liệu cụ thể nghĩa là phải nhớ nhiều những quy tắc riêng biệt cho từng kiểu. Như những quy tắc dưới đây:
 \begin{itemize}
 	\item Kiểu dữ liệu số tổng quát:
 		\begin{itemize}
@@ -232,6 +393,14 @@ tabsize = 4
 			\item Để thêm một phần tử ở cuối mảng 
 		\end{itemize}
 \end{itemize}
+Ví dụ: 
+
+\begin{python}
+EPSILON = 0.0001
+def are_same(a, b):
+	return abs(a - b) < EPSILON
+\end{python}
+
 
 \subsubsection{KT12.2. Creating your own types makes your programs easier to modify and more self-documenting, if your language supports that capability.}
 Tự tạo một kiểu dữ liệu mới sẽ làm cho chương trình dễ dàng sửa đổi và tăng tính tự mô tả, nếu như ngôn ngữ hỗ trợ khả năng này.
@@ -243,12 +412,19 @@ Tự tạo một kiểu dữ liệu mới sẽ làm cho chương trình dễ dà
 	\item Đừng định nghĩa kiểu dữ liệu đã được định nghĩa 
 	\item Định nghĩa kiểu dữ liệu thay thế cho kiểu dữ liệu cũ để tăng tính khả chuyển 
 \end{itemize}
-
-
+Trong Python không hỗ trợ tạo kiểu dữ liệu mới. 
 
 \subsubsection{KT12.3. When you create a simple type using typedef or its equivalent, consider whether you should be creating a new class instead.}
 Nếu tự tạo một kiểu dữ liệu mới bằng typedef hoặc cách tương đương, xem xét việc sử dụng class để thay thế nó.
 
+Ví dụ sử dụng class $StudentID$ để thay thế cho $mssv$ là một số: 
+\begin{python}
+class StudentID:
+	# mssv
+	def __init__(self, mssv):
+		self.mssv = mssv
+
+\end{python}
 
 \subsection{Sử dụng chương 13 – Các kiểu dữ liệu đặc biệt}
 \noindent Các kĩ thuật tiêu biểu gồm:
@@ -263,10 +439,45 @@ Kiểu dữ liệu có cấu trúc sẽ giúp chương trình giảm độ phứ
 	\item Sử dụng để đơn giản hoá tham số đầu vào của hàm 
 	\item Sử dụng để giảm bớt việc bảo trì chương trình
 \end{itemize}
+Ví dụ:
+\begin{python}
+class Person:
+	def __init__(self, name, age, phone):
+		self.name = name
+		self.age = age
+		self.phone = phone
+
+def print_person(person):
+	print("Ho ten: " + person.name)
+	print("Tuoi: " + person.age)
+	print("So dien thoai: " + person.phone)
+
+person = Person("Ta Quang Tung", 19, 123)
+print_person(person)
+
+\end{python}
 
 \subsubsection{KT13.2. Whenever you consider using a structure, consider whether a class would work better.}
 Khi sử dụng một kiểu giữ liệu có cấu trúc, xem xét liệu rằng class sẽ tốt hơn.
 
+Ví dụ:
+\begin{python}
+http_request = {'method': 'get', 'url':'sis.hust.edu.vn', \
+						'id': 20154280}
+
+def send_http_request(http_request):
+	...
+\end{python}
+Sẽ tốt hơn nếu được thay thế bằng:
+\begin{python}
+class HttpRequest:
+	def __init__(self, method, url, id):
+		self.method = method
+		self.url = url
+		self.id = id
+	def send():
+		...
+\end{python}
 
  
 \subsubsection{KT13.3. Pointers are error-prone. Protect yourself by using access routines or classes and defensive-programming practices.}
@@ -340,6 +551,28 @@ Truy cập nhờ hàm, thủ tục sẽ cho bạn mọi thứ như khi sử dụ
 	\item Xây dựng thêm một mức trừu tượng hoá vào trong hàm truy cập. 
 	\item Giữ tất cả các truy cập của dữ liệu ở cùng một mức trừu tượng, đừng cho phép sử dụng nhiều mức trừu tượng để truy cập giữ liệu. 
 \end{itemize}
+Ví dụ về hàm truy cập:
+\begin{python}
+__counter = 0
+__mt = mutex()
+
+def get_counter():
+	__mt.lock()
+	tmp = __counter
+	__mt.unlock()
+	return tmp
+
+def set_counter(value):
+	__mt.lock()
+	__counter = value
+	__mt.unlock()
+	
+def inc_counter():
+	__mt.lock()
+	__counter += 1
+	__mt.unlock()
+
+\end{python}
 
 % Begin section
 \section{\bfseries Tổng hợp kỹ thuật xây dựng chương trình, hàm, thủ tục}
@@ -648,15 +881,46 @@ Một assertion là những dòng code được sử dụng trong khi phát tri�
 
 Assertion có thể được sử dụng để kiểm tra những giả định sau: 
 \begin{itemize}
-	\item 
+	\item Những tham số đầu vào có giá trị rơi vào khoảng xác định.
+	\item File được mở (đóng) khi hàm bắt đầu thực hiện (hoặc khi kết thúc). 
+	\item Con trỏ file được đặt đúng vị trí khi bắt đầu (hoặc kết thúc) đọc file. 
+	\item File là chỉ đọc, chỉ ghi, hay cả đọc cả ghi. 
+	\item Con trỏ là khác NULL.
+	\item Giá trị của biến đầu vào không bị thay đổi bởi hàm. 
+	\item Một array hoặc một kiểu dữ liệu chứa đựng có ít nhất số phần tử lớn hơn mức nào đó. 
+	\item Cái cấu trúc dữ liệu chứa đựng là trống rỗng (hoặc đầy) trước khi hoặc kết thúc hàm.
+	\item ...
 \end{itemize}
 
 \subsubsection{KT8.4 The decision about how to handle bad inputs is a key error-handling decision and a key high-level design decision.}
+Những quyết định về cách làm thế nào xử lý những đầu vào không hợp lệ là những quyết định chủ đạo trong việc xử lý lỗi và công việc thiết kế ở mức cao. 
+\vspace*{3mm}
+
+Bảo vệ hàm, chương trình của bạn khỏi những đầu vào không hợp lệ là bước đầu tiên và quan trọng nhất trong việc tránh những lỗi quan trọng xảy ra trong chương trình. Nó sẽ thúc đẩy những quyết định của bạn trong thiết kế hệ thống ra sảo để đảm bảo an toàn, từ đó tăng độ bảo mật cho chính hệ thống. 
 
 \subsubsection{KT8.5. Exceptions provide a means of handling errors that operates in a different dimension from the normal flow of the code. They are a valuable addition to the programmer's intellectual toolbox when used with care, and they should be weighed against other error-processing techniques.}
+Những ngoại lệ cung cấp một cách thức xử lý lỗi mà trong đó hoạt động của nó xảy ra ở một chiều khác so với dòng chảy thông thường của code. Chúng là một công cụ thông minh, đầy giá trị của lập trình viên khi biết sử dụng nó cẩn thận, và chúng nên được xem xét sử dụng nhiều hơn so với các kỹ thuật xử lý lỗi khác. 
+\vspace*{3mm}
+
+\noindent {\bfseries Những lưu ý khi sử dụng exception:}
+\begin{itemize}
+	\item Sử dụng ngoại lệ để thông báo phần khác của chương trình về những lỗi mà nó không nên bỏ qua.
+	\item Throw một ngoại lệ chỉ khi mà điều kiện đó thực sự là điều kiện đặc biệt. 
+	\item Đừng throw một ngoại lệ khi mà bạn có thể xử lý lỗi đó ngay trong hàm của mình. 
+	\item Tránh throw một ngoại lệ ở trong constructor và destructor trừ khi bạn catch nó ở cùng một nơi. 
+	\item Throw một ngoại lệ phải đúng mức trừu tượng. 
+	\item Gom tất cả những thông tin dẫn đến ngoại lệ vào trong bản thân ngoại lệ đó. 
+	\item Tránh tạo khối catch trống. 
+	\item Biết về những ngoại lệ mà thư viện của bạn throw. 
+	\item Xem xét về việc xây dựng một nơi báo cáo ngoại lệ tập trung. 
+	\item Chuẩn hoá cách sử dụng ngoại lệ trong project của bạn. 
+	\item Xem xét việc thay thế ngoại lệ bằng một cách khác. 
+\end{itemize} 
 
 \subsubsection{KT8.6. Constraints that apply to the production system do not necessarily apply to the development version. You can use that to your advantage, adding code to the development version that helps to flush out errors quickly.}
+Những ràng buộc áp dụng cho hệ thống được xuất ra thị trường không nhất thiết áp dụng cho phiên bản đang phát triển. Bạn có thể sử dụng những điều đó cho lợi thế của mình, thêm những code vào phiên bản đang phát triển của phần mềm sẽ giúp cho bạn nhanh chóng tìm ra những lỗi xảy ra với hệ thống. 
+\vspace*{3mm}
 
-
+Phiên bản xuất ra thị trường phải chạy nhanh, nhưng phiên bản để phát triển có thể chạy chậm. Phiên bản hoạt động thực tế có thể rất khắt khe khi xử dụng tài nguyên, phiên bản đang phát triển có thể sử dụng cực kì nhiều tài nguyên. Phiên bản xuất ra không nên xuất hiện những phương thức gây hại cho hệ thống, phiên bản phát triển có thể có những phương thức thêm vào mà không đảm bảo độ an toàn. 
 
 \end{document}
