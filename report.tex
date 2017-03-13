@@ -423,7 +423,6 @@ class StudentID:
 	# mssv
 	def __init__(self, mssv):
 		self.mssv = mssv
-
 \end{python}
 
 \subsection{Sử dụng chương 13 – Các kiểu dữ liệu đặc biệt}
@@ -454,7 +453,6 @@ def print_person(person):
 
 person = Person("Ta Quang Tung", 19, 123)
 print_person(person)
-
 \end{python}
 
 \subsubsection{KT13.2. Whenever you consider using a structure, consider whether a class would work better.}
@@ -475,7 +473,7 @@ class HttpRequest:
 		self.method = method
 		self.url = url
 		self.id = id
-	def send():
+	def send(self):
 		...
 \end{python}
 
@@ -491,6 +489,7 @@ Con trỏ là kiểu dữ liệu dễ dàng gặp lỗi khi sử dụng. Bảo v
 	\item Trong C, nếu bạn sử dụng dấu * với tham số ở hàm, luôn nhớ rằng giá trị có thể truyền ngược lại khi gọi hàm. Đồng thời khi bạn muốn truyền ngược lại giá trị, chắc chắn rằng phải có ít nhất một dấu sao trong một câu lệnh gán. 
 	\item Sử dụng sizeof() để xác định kích thước của biến khi cấp phát bộ nhớ cho nó. 
 \end{itemize}
+Trong python không có kiểu con trỏ. 
 
 \subsubsection{KT13.4. Avoid global variables, not just because they're dangerous, but because you can replace them with something better.}
 Tránh dử dụng biến toàn cục, không phải chỉ vì nó nguy hiểm mà còn bởi vì bạn có thể thay thế nó bằng những cách thức tốt hơn nhiều. 
@@ -551,7 +550,7 @@ Truy cập nhờ hàm, thủ tục sẽ cho bạn mọi thứ như khi sử dụ
 	\item Xây dựng thêm một mức trừu tượng hoá vào trong hàm truy cập. 
 	\item Giữ tất cả các truy cập của dữ liệu ở cùng một mức trừu tượng, đừng cho phép sử dụng nhiều mức trừu tượng để truy cập giữ liệu. 
 \end{itemize}
-Ví dụ về hàm truy cập:
+Ví dụ về hàm truy cập kết hợp cơ chế đồng bộ:
 \begin{python}
 __counter = 0
 __mt = mutex()
@@ -868,6 +867,17 @@ Có ba cách để xử lý "rác" vào chương trình của bạn:
 	\item Kiểm tra giá trị của tất cả tham số vào hàm. 
 	\item Quyết định xem làm thế nào để xử lý những giá trị đầu vào không hợp lệ.  
 \end{itemize}
+Ví dụ đơn giản về kiểm tra tham số đầu vào: 
+\begin{python}
+def is_prime(n):
+	a = int(n) 	# make sure parameter is integer
+	if a <= 1:
+		return False
+	for i in range(2, a):
+		if a % i == 0:
+			return False
+	return True 
+\end{python}
 
 
 \subsubsection{KT8.2. Defensive-programming techniques make errors easier to find, easier to fix, and less damaging to production code.}
@@ -891,6 +901,16 @@ Assertion có thể được sử dụng để kiểm tra những giả định 
 	\item Cái cấu trúc dữ liệu chứa đựng là trống rỗng (hoặc đầy) trước khi hoặc kết thúc hàm.
 	\item ...
 \end{itemize}
+Như hàm ở kĩ thuật phía trên, ta sử dụng assert:
+\begin{python}
+def is_prime(n):
+	assert(isinstance(n, int))
+	assert(n >= 2)
+	for i in range(2, n):
+		if n % i == 0:
+			return False
+	return True 
+\end{python}
 
 \subsubsection{KT8.4 The decision about how to handle bad inputs is a key error-handling decision and a key high-level design decision.}
 Những quyết định về cách làm thế nào xử lý những đầu vào không hợp lệ là những quyết định chủ đạo trong việc xử lý lỗi và công việc thiết kế ở mức cao. 
@@ -916,6 +936,27 @@ Những ngoại lệ cung cấp một cách thức xử lý lỗi mà trong đó
 	\item Chuẩn hoá cách sử dụng ngoại lệ trong project của bạn. 
 	\item Xem xét việc thay thế ngoại lệ bằng một cách khác. 
 \end{itemize} 
+Như ví dụ ở trên, ta thay thế nó bằng exception:
+\begin{python}
+def is_prime(n):
+	if not isinstance(n, int):
+		raise TypeError("n is not an integer")
+	if n < 2:
+		raise ValueError("n is less than 2")	
+	
+	for i in range(2, n):
+		if n % i == 0:
+			return False
+	return True 
+try:
+	print(is_prime(1))
+except TypeError as e:
+	print("Type error exception!")
+	print(e)
+except ValueError as e:
+	print("Value error exception!")
+	print(e)
+\end{python}
 
 \subsubsection{KT8.6. Constraints that apply to the production system do not necessarily apply to the development version. You can use that to your advantage, adding code to the development version that helps to flush out errors quickly.}
 Những ràng buộc áp dụng cho hệ thống được xuất ra thị trường không nhất thiết áp dụng cho phiên bản đang phát triển. Bạn có thể sử dụng những điều đó cho lợi thế của mình, thêm những code vào phiên bản đang phát triển của phần mềm sẽ giúp cho bạn nhanh chóng tìm ra những lỗi xảy ra với hệ thống. 
